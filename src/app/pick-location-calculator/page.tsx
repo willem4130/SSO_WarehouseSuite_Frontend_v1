@@ -6,11 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { ArrowLeft, Calculator } from "lucide-react";
 
 export default function PickLocationCalculator() {
   return (
     <div className="flex min-h-screen flex-col bg-background p-8">
+      <ThemeToggle />
       {/* Back button */}
       <div className="mb-8">
         <Link

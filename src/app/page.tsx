@@ -6,11 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { ArrowRight, BarChart3, Calculator, Package } from "lucide-react";
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-8">
+      <ThemeToggle />
       <main className="w-full max-w-6xl space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">
