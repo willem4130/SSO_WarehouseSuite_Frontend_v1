@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { CodeStatsKPI } from "@/components/code-stats-kpi";
+import { RepoStatsBadge } from "@/components/repo-stats-badge";
 import {
   Search,
   HelpCircle,
@@ -53,12 +55,21 @@ type AppCategory =
   | "automation"
   | "tools";
 
+interface TechDetails {
+  stack: string[];
+  databases?: string[];
+  entities?: number;
+  calculations?: string[];
+  highlights?: string[];
+}
+
 interface AppInfo {
   overview: string;
   keyFeatures: string[];
   howToUse: string[];
   tips: string[];
   githubRepo?: string;
+  techDetails?: TechDetails;
 }
 
 interface App {
@@ -138,6 +149,29 @@ const apps: App[] = [
         "Check the 'What-If' scenarios tab for strategic planning",
       ],
       githubRepo: "https://github.com/willem4130/sso-forecaster",
+      techDetails: {
+        stack: [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS",
+          "Recharts",
+        ],
+        databases: ["PostgreSQL (Supabase)"],
+        entities: 8,
+        calculations: [
+          "Time-series forecasting algorithms",
+          "Weighted moving averages",
+          "Seasonal trend decomposition",
+          "YoY growth projections",
+        ],
+        highlights: [
+          "Real-time dashboard with interactive charts",
+          "Advanced filtering (product, region, date range)",
+          "Demo mode with realistic sample data",
+          "Export to Excel/PDF functionality",
+        ],
+      },
     },
   },
   {
@@ -608,9 +642,116 @@ function AppInfoModal({ app }: { app: App }) {
             </ul>
           </div>
 
-          {/* GitHub Repo Link */}
+          {/* Tech Details */}
+          {app.info.techDetails && (
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <Database className="h-5 w-5 text-primary" />
+                <h3 className="text-lg font-semibold">Technical Details</h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Tech Stack */}
+                <div className="space-y-2">
+                  <h4 className="text-sm font-semibold text-muted-foreground">
+                    Tech Stack
+                  </h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {app.info.techDetails.stack.map((tech, index) => (
+                      <span
+                        key={index}
+                        className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md font-medium"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Databases */}
+                {app.info.techDetails.databases &&
+                  app.info.techDetails.databases.length > 0 && (
+                    <div className="space-y-2">
+                      <h4 className="text-sm font-semibold text-muted-foreground">
+                        Databases
+                      </h4>
+                      <div className="flex flex-wrap gap-1.5">
+                        {app.info.techDetails.databases.map((db, index) => (
+                          <span
+                            key={index}
+                            className="px-2 py-1 bg-accent/10 text-accent text-xs rounded-md font-medium"
+                          >
+                            {db}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                {/* Entities */}
+                {app.info.techDetails.entities !== undefined && (
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-semibold text-muted-foreground">
+                      Data Models
+                    </h4>
+                    <div className="text-2xl font-bold text-primary">
+                      {app.info.techDetails.entities} entities
+                    </div>
+                  </div>
+                )}
+
+                {/* Calculations */}
+                {app.info.techDetails.calculations &&
+                  app.info.techDetails.calculations.length > 0 && (
+                    <div className="space-y-2 md:col-span-2">
+                      <h4 className="text-sm font-semibold text-muted-foreground">
+                        Key Calculations
+                      </h4>
+                      <ul className="space-y-1">
+                        {app.info.techDetails.calculations.map(
+                          (calc, index) => (
+                            <li
+                              key={index}
+                              className="flex items-start gap-2 text-sm text-muted-foreground"
+                            >
+                              <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
+                              <span>{calc}</span>
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    </div>
+                  )}
+
+                {/* Highlights */}
+                {app.info.techDetails.highlights &&
+                  app.info.techDetails.highlights.length > 0 && (
+                    <div className="space-y-2 md:col-span-2">
+                      <h4 className="text-sm font-semibold text-muted-foreground">
+                        Technical Highlights
+                      </h4>
+                      <ul className="space-y-1">
+                        {app.info.techDetails.highlights.map(
+                          (highlight, index) => (
+                            <li
+                              key={index}
+                              className="flex items-start gap-2 text-sm text-muted-foreground"
+                            >
+                              <CheckCircle2 className="mt-0.5 h-4 w-4 text-primary shrink-0" />
+                              <span>{highlight}</span>
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    </div>
+                  )}
+              </div>
+            </div>
+          )}
+
+          {/* GitHub Repo Link & Stats */}
           {app.info.githubRepo && (
-            <div className="pt-4 border-t">
+            <div className="pt-4 border-t space-y-3">
               <a
                 href={app.info.githubRepo}
                 target="_blank"
@@ -620,6 +761,7 @@ function AppInfoModal({ app }: { app: App }) {
                 <ExternalLink className="h-4 w-4" />
                 View on GitHub
               </a>
+              <RepoStatsBadge githubRepo={app.info.githubRepo} />
             </div>
           )}
 
@@ -831,6 +973,11 @@ export default function Home() {
               Your comprehensive application ecosystem
             </p>
           </div>
+        </div>
+
+        {/* Development Impact KPIs */}
+        <div className="mb-6 sm:mb-8">
+          <CodeStatsKPI />
         </div>
 
         {/* Search and Filters */}
