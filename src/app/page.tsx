@@ -406,6 +406,34 @@ const apps: App[] = [
     isExternal: true,
     isCustomBuild: true,
     progress: 30,
+    info: {
+      overview:
+        "RACI Matrix tool for defining project roles and responsibilities. RACI stands for Responsible, Accountable, Consulted, and Informed - helping teams clarify who does what in projects and avoid confusion.",
+      keyFeatures: [
+        "Visual RACI matrix grid with drag-and-drop assignment",
+        "Project and task management integration",
+        "Team member role assignment (R, A, C, I)",
+        "Export matrices for project documentation",
+        "Multi-project support with templates",
+        "Collaboration mode for team workshops",
+      ],
+      howToUse: [
+        "Create a new project or select an existing one",
+        "Add team members and define their roles",
+        "List all project tasks or deliverables",
+        "Assign RACI designations (R/A/C/I) for each task/person combination",
+        "Review the matrix to ensure each task has exactly one 'A' (Accountable)",
+        "Export the matrix for stakeholder review and project kickoff",
+      ],
+      tips: [
+        "Each task should have exactly ONE person Accountable (A)",
+        "Multiple people can be Responsible (R) but keep it focused",
+        "Use Consulted (C) sparingly to avoid decision bottlenecks",
+        "Keep Informed (I) lists short to prevent information overload",
+        "Review and update the matrix at project milestones",
+      ],
+      githubRepo: "https://github.com/willem4130/SSO-RACI",
+    },
   },
   {
     id: "powerpoint-addin",
@@ -417,6 +445,34 @@ const apps: App[] = [
     icon: <FileText className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
+    info: {
+      overview:
+        "PowerPoint Office Add-in for managing placeholders in presentation templates. Streamlines the process of creating and maintaining consistent branded presentations with dynamic content replacement.",
+      keyFeatures: [
+        "Manage placeholders in PowerPoint slides programmatically",
+        "Bulk find and replace across all slides",
+        "Template creation with standardized placeholders",
+        "Preview changes before applying",
+        "Export placeholder inventory for documentation",
+        "Integration with PowerPoint's Office.js API",
+      ],
+      howToUse: [
+        "Install the add-in in PowerPoint (via manifest file)",
+        "Open your presentation template in PowerPoint",
+        "Click the add-in icon in the ribbon to launch",
+        "Scan slides to identify all placeholders",
+        "Replace placeholders with actual content or new placeholders",
+        "Apply changes and save your presentation",
+      ],
+      tips: [
+        "Use consistent placeholder naming conventions (e.g., {{CLIENT_NAME}})",
+        "Test the add-in on a copy of your presentation first",
+        "Create a placeholder reference document for team members",
+        "Use the bulk replace feature to update recurring elements",
+        "Keep a master template with all standard placeholders",
+      ],
+      githubRepo: "https://github.com/willem4130/powerpoint-placeholder-addin",
+    },
   },
 ];
 
