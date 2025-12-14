@@ -36,6 +36,7 @@ import {
   BookOpen,
   Lightbulb,
   CheckCircle2,
+  Bot,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -212,6 +213,30 @@ const apps: App[] = [
         "Update fuel costs regularly as they fluctuate significantly",
       ],
       githubRepo: "https://github.com/willem4130/sso-trucktypecalculator-2.0",
+      techDetails: {
+        stack: [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS",
+          "shadcn/ui",
+        ],
+        databases: ["PostgreSQL (Supabase)"],
+        entities: 6,
+        calculations: [
+          "Total Cost of Ownership (TCO) modeling",
+          "Depreciation calculations",
+          "Fuel cost projections",
+          "Maintenance cost estimation",
+          "ROI and payback period analysis",
+        ],
+        highlights: [
+          "Multi-vehicle comparison engine",
+          "Customizable cost parameters",
+          "Export to PDF/Excel",
+          "Real-time TCO recalculation",
+        ],
+      },
     },
   },
   {
@@ -226,6 +251,61 @@ const apps: App[] = [
     isExternal: true,
     isCustomBuild: true,
     progress: 15,
+    info: {
+      overview:
+        "Advanced business scenario modeling and simulation tool for analyzing different strategic decisions and their potential outcomes. Uses Monte Carlo simulations and what-if analysis to help teams make data-driven decisions with confidence.",
+      keyFeatures: [
+        "Monte Carlo simulation engine for probabilistic outcomes",
+        "What-if scenario modeling with parameter variations",
+        "Multi-variable sensitivity analysis",
+        "Visual comparison of different strategic scenarios",
+        "Risk assessment and confidence interval calculations",
+        "Export simulation results for presentations",
+      ],
+      howToUse: [
+        "Navigate to the admin dashboard",
+        "Create a new business scenario or select an existing one",
+        "Define input variables and their ranges (min, max, distribution)",
+        "Set up relationships and dependencies between variables",
+        "Run simulations (1000-10000 iterations) for statistical accuracy",
+        "Analyze results with confidence intervals and visualizations",
+        "Export scenario comparisons for decision-making meetings",
+      ],
+      tips: [
+        "Start with fewer variables to understand the model behavior",
+        "Use realistic probability distributions based on historical data",
+        "Run at least 5000 iterations for stable confidence intervals",
+        "Compare 2-3 scenarios side-by-side for clearer insights",
+        "Document your assumptions for each scenario",
+        "Update scenarios quarterly as business conditions change",
+      ],
+      githubRepo: "https://github.com/willem4130/sc-simulator",
+      techDetails: {
+        stack: [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS",
+          "Recharts",
+          "D3.js",
+        ],
+        databases: ["PostgreSQL (Supabase)"],
+        entities: 9,
+        calculations: [
+          "Monte Carlo simulation algorithms",
+          "Probabilistic outcome modeling",
+          "Sensitivity analysis computations",
+          "Confidence interval calculations",
+          "Risk-adjusted scenario scoring",
+        ],
+        highlights: [
+          "Monte Carlo simulation engine (10K+ iterations)",
+          "Multi-scenario comparison dashboard",
+          "Probabilistic outcome visualization",
+          "Export to Excel with full simulation data",
+        ],
+      },
+    },
   },
   {
     id: "impact-matrix",
@@ -265,6 +345,29 @@ const apps: App[] = [
         "Revisit and update the matrix monthly as priorities shift",
       ],
       githubRepo: "https://github.com/willem4130/impactmatrix",
+      techDetails: {
+        stack: [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS",
+          "Recharts",
+        ],
+        databases: ["PostgreSQL (Supabase)"],
+        entities: 5,
+        calculations: [
+          "Effort vs. Value scoring algorithm",
+          "Quadrant classification (Quick Wins, Strategic Bets, etc.)",
+          "Priority ranking based on position",
+          "Impact score aggregation",
+        ],
+        highlights: [
+          "Drag-and-drop 2x2 matrix interface",
+          "Real-time quadrant classification",
+          "Multi-organization support",
+          "Export to presentations",
+        ],
+      },
     },
   },
 
@@ -318,6 +421,29 @@ const apps: App[] = [
       ],
       githubRepo:
         "https://github.com/willem4130/Hubspot-CompanyScrape-Hubspot_v1",
+      techDetails: {
+        stack: [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS",
+          "N8N Webhooks",
+        ],
+        databases: ["HubSpot CRM (via API)"],
+        entities: 4,
+        calculations: [
+          "Web scraping with data normalization",
+          "Company data enrichment algorithms",
+          "Duplicate detection and merging",
+          "Field mapping and validation",
+        ],
+        highlights: [
+          "Automated company research via web scraping",
+          "Direct HubSpot CRM integration",
+          "N8N workflow automation",
+          "Batch processing for multiple companies",
+        ],
+      },
     },
   },
 
@@ -370,6 +496,31 @@ const apps: App[] = [
         "Keep backup manual processes for critical invoice periods",
       ],
       githubRepo: "https://github.com/willem4130/simplicate-workspace",
+      techDetails: {
+        stack: [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS",
+          "tRPC",
+          "Prisma",
+        ],
+        databases: ["PostgreSQL", "Simplicate API"],
+        entities: 12,
+        calculations: [
+          "Automated contract distribution logic",
+          "Hours reminder scheduling algorithms",
+          "Invoice generation from project data",
+          "Project health scoring",
+          "Resource allocation optimization",
+        ],
+        highlights: [
+          "Full Simplicate API integration",
+          "Automated workflows (contracts, reminders, invoices)",
+          "Custom admin dashboard",
+          "Email & Slack notifications",
+        ],
+      },
     },
   },
 
@@ -467,6 +618,29 @@ const apps: App[] = [
         "Review and update the matrix at project milestones",
       ],
       githubRepo: "https://github.com/willem4130/SSO-RACI",
+      techDetails: {
+        stack: [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS",
+          "Prisma",
+        ],
+        databases: ["PostgreSQL (Supabase)"],
+        entities: 7,
+        calculations: [
+          "RACI validation rules (exactly one A per task)",
+          "Role assignment conflict detection",
+          "Matrix completeness scoring",
+          "Team workload distribution analysis",
+        ],
+        highlights: [
+          "Drag-and-drop RACI assignment",
+          "Validation of RACI best practices",
+          "Multi-project templates",
+          "Export for documentation",
+        ],
+      },
     },
   },
   {
@@ -506,6 +680,29 @@ const apps: App[] = [
         "Keep a master template with all standard placeholders",
       ],
       githubRepo: "https://github.com/willem4130/powerpoint-placeholder-addin",
+      techDetails: {
+        stack: [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "Office.js API",
+          "Tailwind CSS",
+        ],
+        databases: ["Browser LocalStorage"],
+        entities: 3,
+        calculations: [
+          "Placeholder detection and parsing",
+          "Bulk find and replace algorithms",
+          "Template validation logic",
+          "Diff preview generation",
+        ],
+        highlights: [
+          "Native PowerPoint integration via Office.js",
+          "Bulk placeholder management",
+          "Live preview before applying changes",
+          "Template inventory export",
+        ],
+      },
     },
   },
 ];
@@ -839,12 +1036,32 @@ function AppCard({ app }: { app: App }) {
           </CardDescription>
         </CardHeader>
         <CardContent className="relative">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground">
-              {app.isCustomBuild ? "Custom Build" : "External Platform"} •{" "}
-              {categoryLabels[app.category]}
-            </span>
-            <ChevronRight className="h-4 w-4 text-muted-foreground transition-all duration-300 group-hover:translate-x-1 group-hover:text-primary" />
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">
+                {app.isCustomBuild ? "Custom Build" : "External Platform"} •{" "}
+                {categoryLabels[app.category]}
+              </span>
+              <ChevronRight className="h-4 w-4 text-muted-foreground transition-all duration-300 group-hover:translate-x-1 group-hover:text-primary" />
+            </div>
+
+            {/* Repo Stats Badge - shows for custom builds with GitHub repos */}
+            {app.isCustomBuild && app.info?.githubRepo && (
+              <div onClick={(e) => e.stopPropagation()}>
+                <RepoStatsBadge githubRepo={app.info.githubRepo} />
+              </div>
+            )}
+
+            {/* Automation Badge - shows for apps with impressive calculations */}
+            {app.info?.techDetails?.calculations &&
+              app.info.techDetails.calculations.length > 0 && (
+                <div className="flex items-center gap-1.5 text-xs text-accent">
+                  <Bot className="h-3.5 w-3.5" />
+                  <span className="font-medium">
+                    State-of-the-art automation
+                  </span>
+                </div>
+              )}
           </div>
         </CardContent>
       </Card>
