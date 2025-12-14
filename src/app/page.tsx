@@ -1404,7 +1404,12 @@ export default function Home() {
 
             {/* Company Resources */}
             {filteredApps.some((app) =>
-              ["scex-website", "scex-connect", "sharepoint"].includes(app.id)
+              [
+                "scex-website",
+                "linkedin-business",
+                "scex-connect",
+                "sharepoint",
+              ].includes(app.id)
             ) && (
               <div className="space-y-3 sm:space-y-4">
                 <div className="flex items-center gap-2 sm:gap-3">
@@ -1417,9 +1422,12 @@ export default function Home() {
                 <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                   {filteredApps
                     .filter((app) =>
-                      ["scex-website", "scex-connect", "sharepoint"].includes(
-                        app.id
-                      )
+                      [
+                        "scex-website",
+                        "linkedin-business",
+                        "scex-connect",
+                        "sharepoint",
+                      ].includes(app.id)
                     )
                     .map((app) => (
                       <AppCard key={app.id} app={app} />
