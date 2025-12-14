@@ -90,51 +90,51 @@ export function HeroMetricsStrip() {
   if (!metrics) return null;
 
   return (
-    <div className="mb-6 sm:mb-8">
-      <Card className="bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 border-primary/20 shadow-md hover:shadow-lg transition-shadow">
-        <div className="p-4 sm:p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+    <div className="mb-6">
+      <Card className="bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 border-primary/20">
+        <div className="p-4">
+          <div className="grid grid-cols-3 gap-4">
             {/* Lines of Code */}
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
-                <Code2 className="h-5 w-5 sm:h-6 sm:w-6" />
+            <div className="flex items-center gap-3 justify-center">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
+                <Code2 className="h-5 w-5" />
               </div>
-              <div className="min-w-0">
-                <div className="text-2xl sm:text-3xl font-bold text-primary">
+              <div>
+                <div className="text-2xl font-bold text-primary">
                   {metrics.totalLines.toLocaleString()}
                 </div>
-                <div className="text-xs sm:text-sm text-muted-foreground">
+                <div className="text-xs text-muted-foreground whitespace-nowrap">
                   Lines of code
                 </div>
               </div>
             </div>
 
             {/* Dev Hours */}
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg bg-accent/10 text-accent shrink-0">
-                <Clock className="h-5 w-5 sm:h-6 sm:w-6" />
+            <div className="flex items-center gap-3 justify-center">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent shrink-0">
+                <Clock className="h-5 w-5" />
               </div>
-              <div className="min-w-0">
-                <div className="text-2xl sm:text-3xl font-bold text-accent">
+              <div>
+                <div className="text-2xl font-bold text-accent">
                   {metrics.hoursMin.toLocaleString()}-
                   {metrics.hoursMax.toLocaleString()}h
                 </div>
-                <div className="text-xs sm:text-sm text-muted-foreground">
+                <div className="text-xs text-muted-foreground whitespace-nowrap">
                   Development hours
                 </div>
               </div>
             </div>
 
             {/* Active Projects */}
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
-                <Zap className="h-5 w-5 sm:h-6 sm:w-6" />
+            <div className="flex items-center gap-3 justify-center">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
+                <Zap className="h-5 w-5" />
               </div>
-              <div className="min-w-0">
-                <div className="text-2xl sm:text-3xl font-bold text-primary">
+              <div>
+                <div className="text-2xl font-bold text-primary">
                   {metrics.totalRepos}
                 </div>
-                <div className="text-xs sm:text-sm text-muted-foreground">
+                <div className="text-xs text-muted-foreground whitespace-nowrap">
                   Custom applications
                 </div>
               </div>
