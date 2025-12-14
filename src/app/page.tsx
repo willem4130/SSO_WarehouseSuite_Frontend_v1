@@ -29,8 +29,21 @@ import {
   Filter,
   X,
   Linkedin,
+  Info,
+  ExternalLink,
+  BookOpen,
+  Lightbulb,
+  CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 type AppStatus = "production" | "in-progress" | "beta";
 type AppCategory =
@@ -39,6 +52,14 @@ type AppCategory =
   | "collaboration"
   | "automation"
   | "tools";
+
+interface AppInfo {
+  overview: string;
+  keyFeatures: string[];
+  howToUse: string[];
+  tips: string[];
+  githubRepo?: string;
+}
 
 interface App {
   id: string;
@@ -51,6 +72,7 @@ interface App {
   isExternal: boolean;
   isCustomBuild: boolean; // true for SCEX custom builds, false for 3rd party platforms
   progress?: number;
+  info?: AppInfo;
 }
 
 const apps: App[] = [
@@ -89,6 +111,34 @@ const apps: App[] = [
     icon: <TrendingUp className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
+    info: {
+      overview:
+        "A powerful sales forecasting tool designed for LinkedIn and other platforms. Features interactive BI dashboards, advanced filtering, and professional data visualization. Built with Next.js 16 and includes demo mode for presentations.",
+      keyFeatures: [
+        "Interactive sales forecasting dashboard with real-time updates",
+        "Advanced filtering by product, region, and time period",
+        "Professional BI-style visualizations and charts",
+        "Demo mode with sample data for presentations",
+        "Export capabilities for reports and analysis",
+        "Responsive design for desktop and mobile use",
+      ],
+      howToUse: [
+        "Navigate to the dashboard to view current forecasts",
+        "Use the filters (product, region, date range) to customize your view",
+        "Toggle between actual data and forecast projections",
+        "Click on charts for detailed breakdowns and insights",
+        "Export data using the export button in the top-right",
+        "Use Demo Mode (toggle in settings) for client presentations",
+      ],
+      tips: [
+        "Start with the demo mode if you're new to the tool",
+        "Use the date range picker to focus on specific quarters",
+        "Combine multiple filters for granular analysis",
+        "Export forecasts before important meetings for offline review",
+        "Check the 'What-If' scenarios tab for strategic planning",
+      ],
+      githubRepo: "https://github.com/willem4130/sso-forecaster",
+    },
   },
   {
     id: "tco-calculator",
@@ -126,6 +176,34 @@ const apps: App[] = [
     isExternal: true,
     isCustomBuild: true,
     progress: 70,
+    info: {
+      overview:
+        "Visual prioritization tool for organizational improvement ideas using an effort vs. business value matrix. Helps teams make data-driven decisions about which initiatives to pursue first.",
+      keyFeatures: [
+        "2x2 matrix visualization (Effort vs. Business Value)",
+        "Drag-and-drop idea positioning for easy prioritization",
+        "Organization and team-level categorization",
+        "Color-coded quadrants for quick decision making",
+        "Export capabilities for presentations and reports",
+        "Collaborative mode for team workshops",
+      ],
+      howToUse: [
+        "Create an organization or select an existing one",
+        "Add improvement ideas using the '+ New Idea' button",
+        "Drag ideas onto the matrix (low/high effort, low/high value)",
+        "Use the quadrants to identify 'Quick Wins' and 'Strategic Bets'",
+        "Export the matrix for stakeholder presentations",
+        "Invite team members to collaborate on prioritization",
+      ],
+      tips: [
+        "Start with 'Quick Wins' (high value, low effort) for momentum",
+        "Avoid 'Time Wasters' (low value, low effort) unless very easy",
+        "Debate 'Strategic Bets' carefully - they're high effort but high reward",
+        "Use this in quarterly planning sessions for maximum impact",
+        "Revisit and update the matrix monthly as priorities shift",
+      ],
+      githubRepo: "https://github.com/willem4130/impactmatrix",
+    },
   },
 
   // HubSpot Ecosystem
@@ -150,6 +228,35 @@ const apps: App[] = [
     icon: <Globe className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
+    info: {
+      overview:
+        "Automated company research tool that scrapes company information and syncs it directly with HubSpot CRM. Integrates with N8N workflows for automated lead enrichment and contact management.",
+      keyFeatures: [
+        "Automated company data scraping from multiple sources",
+        "Direct HubSpot CRM integration via webhooks",
+        "N8N workflow automation for data processing",
+        "Batch processing for multiple companies",
+        "Real-time data enrichment and updates",
+        "Custom field mapping for HubSpot properties",
+      ],
+      howToUse: [
+        "Enter a company name or domain in the search field",
+        "Click 'Research' to start the automated scraping process",
+        "Review the scraped data before syncing to HubSpot",
+        "Click 'Sync to HubSpot' to create/update the company record",
+        "Use batch mode to process multiple companies at once",
+        "Check the webhook logs to verify successful syncing",
+      ],
+      tips: [
+        "Use company domains (e.g., 'scex.nl') for more accurate results",
+        "Review data before syncing to avoid duplicate records",
+        "Set up N8N workflows for automatic nightly sync",
+        "Use tags to categorize companies during research",
+        "Check HubSpot after syncing to verify all fields mapped correctly",
+      ],
+      githubRepo:
+        "https://github.com/willem4130/Hubspot-CompanyScrape-Hubspot_v1",
+    },
   },
 
   // Simplicate Ecosystem
@@ -174,6 +281,34 @@ const apps: App[] = [
     icon: <Zap className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
+    info: {
+      overview:
+        "Production-ready automation system for Simplicate project management. Handles contract distribution, hours reminders, and automated invoice generation. Reduces manual work and ensures timely project tracking.",
+      keyFeatures: [
+        "Automated contract distribution to team members",
+        "Smart hours reminder system with customizable schedules",
+        "Automated invoice generation from project data",
+        "Custom dashboards for project health monitoring",
+        "Integration with Simplicate API for real-time sync",
+        "Email notifications and Slack alerts",
+      ],
+      howToUse: [
+        "Access the admin dashboard to view automation status",
+        "Configure reminder schedules in the Settings tab",
+        "Set up contract distribution rules by project type",
+        "Review automated invoices before sending to clients",
+        "Monitor the activity log for automation history",
+        "Use the manual trigger button for one-off tasks",
+      ],
+      tips: [
+        "Set reminders for Friday afternoon to ensure weekend hour logging",
+        "Review contract distributions weekly to catch any misalignments",
+        "Check the dashboard Monday morning for week-over-week insights",
+        "Use Slack notifications for urgent items only to avoid alert fatigue",
+        "Keep backup manual processes for critical invoice periods",
+      ],
+      githubRepo: "https://github.com/willem4130/simplicate-workspace",
+    },
   },
 
   // Company Resources
@@ -279,6 +414,143 @@ const statusLabels: Record<AppStatus, string> = {
   beta: "Beta",
 };
 
+// App Info Modal Component
+function AppInfoModal({ app }: { app: App }) {
+  const [open, setOpen] = useState(false);
+
+  if (!app.info) return null;
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 rounded-full hover:bg-primary/10 hover:text-primary"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          <Info className="h-4 w-4" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+        <DialogHeader>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              {app.icon}
+            </div>
+            <div className="flex-1">
+              <DialogTitle className="text-2xl">{app.name}</DialogTitle>
+              <DialogDescription className="text-sm mt-1">
+                {app.description}
+              </DialogDescription>
+            </div>
+          </div>
+        </DialogHeader>
+
+        <div className="space-y-6 mt-6">
+          {/* Overview */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <BookOpen className="h-5 w-5 text-primary" />
+              <h3 className="text-lg font-semibold">Overview</h3>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {app.info.overview}
+            </p>
+          </div>
+
+          {/* Key Features */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <CheckCircle2 className="h-5 w-5 text-primary" />
+              <h3 className="text-lg font-semibold">Key Features</h3>
+            </div>
+            <ul className="space-y-2">
+              {app.info.keyFeatures.map((feature, index) => (
+                <li
+                  key={index}
+                  className="flex items-start gap-2 text-sm text-muted-foreground"
+                >
+                  <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* How to Use */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Target className="h-5 w-5 text-primary" />
+              <h3 className="text-lg font-semibold">How to Use</h3>
+            </div>
+            <ol className="space-y-2">
+              {app.info.howToUse.map((step, index) => (
+                <li
+                  key={index}
+                  className="flex items-start gap-3 text-sm text-muted-foreground"
+                >
+                  <span className="flex items-center justify-center h-6 w-6 rounded-full bg-primary/10 text-primary font-semibold text-xs shrink-0">
+                    {index + 1}
+                  </span>
+                  <span className="pt-0.5">{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          {/* Tips */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Lightbulb className="h-5 w-5 text-primary" />
+              <h3 className="text-lg font-semibold">Tips & Best Practices</h3>
+            </div>
+            <ul className="space-y-2">
+              {app.info.tips.map((tip, index) => (
+                <li
+                  key={index}
+                  className="flex items-start gap-2 text-sm text-muted-foreground"
+                >
+                  <Lightbulb className="mt-0.5 h-4 w-4 text-accent shrink-0" />
+                  <span>{tip}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* GitHub Repo Link */}
+          {app.info.githubRepo && (
+            <div className="pt-4 border-t">
+              <a
+                href={app.info.githubRepo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+              >
+                <ExternalLink className="h-4 w-4" />
+                View on GitHub
+              </a>
+            </div>
+          )}
+
+          {/* Open App Button */}
+          <div className="flex gap-3">
+            <Button asChild className="flex-1">
+              <a href={app.url} target="_blank" rel="noopener noreferrer">
+                Open {app.name}
+                <ExternalLink className="ml-2 h-4 w-4" />
+              </a>
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // App Card Component
 function AppCard({ app }: { app: App }) {
   return (
@@ -298,11 +570,14 @@ function AppCard({ app }: { app: App }) {
               {app.icon}
             </div>
             <div className="flex flex-col gap-2 items-end">
-              <span
-                className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-all duration-300 ${statusColors[app.status]}`}
-              >
-                {statusLabels[app.status]}
-              </span>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-all duration-300 ${statusColors[app.status]}`}
+                >
+                  {statusLabels[app.status]}
+                </span>
+                {app.info && <AppInfoModal app={app} />}
+              </div>
               {app.progress !== undefined && (
                 <div className="flex items-center gap-2">
                   <div className="h-1.5 w-12 bg-muted rounded-full overflow-hidden">
