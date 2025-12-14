@@ -517,7 +517,12 @@ function AppInfoModal({ app }: { app: App }) {
           </Button>
         </DialogTrigger>
       </div>
-      <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+      <DialogContent
+        className="max-w-3xl max-h-[80vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+        onPointerDownOutside={(e) => e.stopPropagation()}
+        onInteractOutside={(e) => e.stopPropagation()}
+      >
         <DialogHeader>
           <div className="flex items-center gap-3 mb-2">
             <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
