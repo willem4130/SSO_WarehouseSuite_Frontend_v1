@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Code2, Clock, Zap, TrendingUp } from "lucide-react";
+import { Code2, Clock, Zap } from "lucide-react";
 
 interface RepoStats {
   name: string;
@@ -15,14 +15,11 @@ interface KPIData {
   totalLinesOfCode: number;
   estimatedHoursMin: number;
   estimatedHoursMax: number;
-  estimatedWeeksMin: number;
-  estimatedWeeksMax: number;
 }
 
 // Industry benchmarks for professional developers
 const LINES_PER_HOUR_OPTIMISTIC = 5.0; // Faster, more experienced workflow
 const LINES_PER_HOUR_CONSERVATIVE = 2.5; // Slower, more careful approach
-const HOURS_PER_WEEK = 40;
 
 export function CodeStatsKPI() {
   const [kpiData, setKpiData] = useState<KPIData | null>(null);
@@ -84,20 +81,12 @@ export function CodeStatsKPI() {
         const estimatedHoursMax = Math.round(
           totalLines / LINES_PER_HOUR_CONSERVATIVE
         );
-        const estimatedWeeksMin = Math.round(
-          estimatedHoursMin / HOURS_PER_WEEK
-        );
-        const estimatedWeeksMax = Math.round(
-          estimatedHoursMax / HOURS_PER_WEEK
-        );
 
         setKpiData({
           totalRepos: repos.length,
           totalLinesOfCode: totalLines,
           estimatedHoursMin,
           estimatedHoursMax,
-          estimatedWeeksMin,
-          estimatedWeeksMax,
         });
       } catch (error) {
         console.error("Error fetching GitHub stats:", error);
@@ -137,7 +126,7 @@ export function CodeStatsKPI() {
         </p>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {/* Total Lines of Code */}
           <div className="space-y-1">
             <div className="flex items-center gap-1.5 text-muted-foreground">
@@ -164,20 +153,6 @@ export function CodeStatsKPI() {
             </div>
             <div className="text-xs text-muted-foreground">
               2.5-5.0 lines/hour
-            </div>
-          </div>
-
-          {/* Estimated Weeks */}
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-muted-foreground">
-              <TrendingUp className="h-4 w-4" />
-              <span className="text-xs font-medium">Est. Dev Time</span>
-            </div>
-            <div className="text-2xl sm:text-3xl font-bold text-primary">
-              {kpiData.estimatedWeeksMin}-{kpiData.estimatedWeeksMax}
-            </div>
-            <div className="text-xs text-muted-foreground">
-              weeks (40h/week)
             </div>
           </div>
 
