@@ -17,7 +17,6 @@ import { DevMetricsModal } from "@/components/dev-metrics-modal";
 import { HeroMetricsStrip } from "@/components/hero-metrics-strip";
 import {
   Search,
-  HelpCircle,
   BarChart3,
   Calculator,
   FileText,
@@ -1139,19 +1138,6 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full h-9 w-9 sm:h-10 sm:w-10"
-                onClick={() =>
-                  window.open(
-                    "https://github.com/willem4130/SSO_WarehouseSuite_Frontend_v1",
-                    "_blank"
-                  )
-                }
-              >
-                <HelpCircle className="h-4 w-4 sm:h-5 sm:w-5" />
-              </Button>
               <DevMetricsModal />
               <ThemeToggle />
             </div>
