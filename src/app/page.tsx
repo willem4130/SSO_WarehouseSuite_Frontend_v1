@@ -28,6 +28,7 @@ import {
   ChevronRight,
   Filter,
   X,
+  Linkedin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -184,6 +185,17 @@ const apps: App[] = [
     category: "collaboration",
     status: "production",
     icon: <Globe className="h-5 w-5" />,
+    isExternal: true,
+    isCustomBuild: false,
+  },
+  {
+    id: "linkedin-business",
+    name: "LinkedIn Business Page",
+    description: "SCEX LinkedIn company page admin dashboard",
+    url: "https://www.linkedin.com/company/18216856/admin/dashboard/",
+    category: "collaboration",
+    status: "production",
+    icon: <Linkedin className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: false,
   },
