@@ -37,7 +37,6 @@ import {
   BookOpen,
   Lightbulb,
   CheckCircle2,
-  Bot,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -1046,23 +1045,12 @@ function AppCard({ app }: { app: App }) {
               <ChevronRight className="h-4 w-4 text-muted-foreground transition-all duration-300 group-hover:translate-x-1 group-hover:text-primary" />
             </div>
 
-            {/* Repo Stats Badge - shows for custom builds with GitHub repos */}
+            {/* Repo Stats Badge - shows lines of code and dev hours for custom builds */}
             {app.isCustomBuild && app.info?.githubRepo && (
               <div onClick={(e) => e.stopPropagation()}>
                 <RepoStatsBadge githubRepo={app.info.githubRepo} />
               </div>
             )}
-
-            {/* Automation Badge - shows for apps with impressive calculations */}
-            {app.info?.techDetails?.calculations &&
-              app.info.techDetails.calculations.length > 0 && (
-                <div className="flex items-center gap-1.5 text-xs text-accent">
-                  <Bot className="h-3.5 w-3.5" />
-                  <span className="font-medium">
-                    State-of-the-art automation
-                  </span>
-                </div>
-              )}
           </div>
         </CardContent>
       </Card>
