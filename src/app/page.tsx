@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { RepoStatsBadge } from "@/components/repo-stats-badge";
 import { DevMetricsModal } from "@/components/dev-metrics-modal";
+import { HeroMetricsStrip } from "@/components/hero-metrics-strip";
 import {
   Search,
   HelpCircle,
@@ -1193,6 +1194,9 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Hero Metrics Strip */}
+        <HeroMetricsStrip />
+
         {/* Search and Filters */}
         <div className="mb-6 sm:mb-8 space-y-3 sm:space-y-4">
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
@@ -1327,93 +1331,6 @@ export default function Home() {
               </Button>
             </div>
           </div>
-        </div>
-
-        {/* Stats */}
-        <div className="mb-4 sm:mb-6 grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-5">
-          <Card>
-            <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                    Total Apps
-                  </p>
-                  <p className="text-xl sm:text-2xl font-bold">{apps.length}</p>
-                </div>
-                <div className="rounded-full bg-primary/10 p-2 sm:p-3">
-                  <Globe className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                    SCEX Build
-                  </p>
-                  <p className="text-xl sm:text-2xl font-bold">
-                    {apps.filter((a) => a.isCustomBuild).length}
-                  </p>
-                </div>
-                <div className="rounded-full bg-accent/10 p-2 sm:p-3">
-                  <Zap className="h-4 w-4 sm:h-5 sm:w-5 text-accent" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                    In Production
-                  </p>
-                  <p className="text-xl sm:text-2xl font-bold">
-                    {apps.filter((a) => a.status === "production").length}
-                  </p>
-                </div>
-                <div className="rounded-full bg-green-500/10 p-2 sm:p-3">
-                  <Zap className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 dark:text-green-400" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                    In Progress
-                  </p>
-                  <p className="text-xl sm:text-2xl font-bold">
-                    {apps.filter((a) => a.status === "in-progress").length}
-                  </p>
-                </div>
-                <div className="rounded-full bg-yellow-500/10 p-2 sm:p-3">
-                  <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-600 dark:text-yellow-400" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs sm:text-sm font-medium text-muted-foreground">
-                    Categories
-                  </p>
-                  <p className="text-xl sm:text-2xl font-bold">
-                    {Object.keys(categoryLabels).length}
-                  </p>
-                </div>
-                <div className="rounded-full bg-accent/10 p-2 sm:p-3">
-                  <Filter className="h-4 w-4 sm:h-5 sm:w-5 text-accent" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Results Count */}
