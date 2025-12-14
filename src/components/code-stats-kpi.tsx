@@ -13,12 +13,15 @@ interface RepoStats {
 interface KPIData {
   totalRepos: number;
   totalLinesOfCode: number;
-  estimatedHours: number;
-  estimatedWeeks: number;
+  estimatedHoursMin: number;
+  estimatedHoursMax: number;
+  estimatedWeeksMin: number;
+  estimatedWeeksMax: number;
 }
 
 // Industry benchmarks for professional developers
-const LINES_PER_HOUR = 3.75; // Conservative: ~30 lines/day ÷ 8 hours (includes design, testing, debugging, documentation)
+const LINES_PER_HOUR_OPTIMISTIC = 5.0; // Faster, more experienced workflow
+const LINES_PER_HOUR_CONSERVATIVE = 2.5; // Slower, more careful approach
 const HOURS_PER_WEEK = 40;
 
 export function CodeStatsKPI() {
@@ -74,14 +77,27 @@ export function CodeStatsKPI() {
           })
         );
 
-        const estimatedHours = Math.round(totalLines / LINES_PER_HOUR);
-        const estimatedWeeks = Math.round(estimatedHours / HOURS_PER_WEEK);
+        // Calculate range: optimistic = fewer hours, conservative = more hours
+        const estimatedHoursMin = Math.round(
+          totalLines / LINES_PER_HOUR_OPTIMISTIC
+        );
+        const estimatedHoursMax = Math.round(
+          totalLines / LINES_PER_HOUR_CONSERVATIVE
+        );
+        const estimatedWeeksMin = Math.round(
+          estimatedHoursMin / HOURS_PER_WEEK
+        );
+        const estimatedWeeksMax = Math.round(
+          estimatedHoursMax / HOURS_PER_WEEK
+        );
 
         setKpiData({
           totalRepos: repos.length,
           totalLinesOfCode: totalLines,
-          estimatedHours,
-          estimatedWeeks,
+          estimatedHoursMin,
+          estimatedHoursMax,
+          estimatedWeeksMin,
+          estimatedWeeksMax,
         });
       } catch (error) {
         console.error("Error fetching GitHub stats:", error);
@@ -143,10 +159,11 @@ export function CodeStatsKPI() {
               <span className="text-xs font-medium">Est. Dev Hours</span>
             </div>
             <div className="text-2xl sm:text-3xl font-bold text-accent">
-              {kpiData.estimatedHours.toLocaleString()}h
+              {kpiData.estimatedHoursMin.toLocaleString()}-
+              {kpiData.estimatedHoursMax.toLocaleString()}h
             </div>
             <div className="text-xs text-muted-foreground">
-              @ {LINES_PER_HOUR} lines/hour
+              2.5-5.0 lines/hour
             </div>
           </div>
 
@@ -157,7 +174,7 @@ export function CodeStatsKPI() {
               <span className="text-xs font-medium">Est. Dev Time</span>
             </div>
             <div className="text-2xl sm:text-3xl font-bold text-primary">
-              {kpiData.estimatedWeeks}
+              {kpiData.estimatedWeeksMin}-{kpiData.estimatedWeeksMax}
             </div>
             <div className="text-xs text-muted-foreground">
               weeks (40h/week)
@@ -182,9 +199,10 @@ export function CodeStatsKPI() {
         {/* Benchmark Info */}
         <div className="mt-4 pt-4 border-t border-border/50">
           <p className="text-xs text-muted-foreground">
-            <strong>Benchmark:</strong> Industry standard of ~3.75 lines/hour
-            includes design, implementation, testing, documentation, and
-            debugging. Metrics auto-update from GitHub repositories.
+            <strong>Benchmark:</strong> Industry range of 2.5-5.0 lines/hour
+            (conservative to optimistic) includes design, implementation,
+            testing, documentation, and debugging. Metrics auto-update from
+            GitHub repositories.
           </p>
         </div>
       </CardContent>

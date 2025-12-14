@@ -7,12 +7,15 @@ interface RepoStatsBadgeProps {
   githubRepo?: string;
 }
 
-const LINES_PER_HOUR = 3.75;
+// Industry benchmarks for production code
+const LINES_PER_HOUR_OPTIMISTIC = 5.0; // Faster, more experienced workflow
+const LINES_PER_HOUR_CONSERVATIVE = 2.5; // Slower, more careful approach
 
 export function RepoStatsBadge({ githubRepo }: RepoStatsBadgeProps) {
   const [stats, setStats] = useState<{
     lines: number;
-    hours: number;
+    hoursMin: number;
+    hoursMax: number;
   } | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -43,9 +46,12 @@ export function RepoStatsBadge({ githubRepo }: RepoStatsBadgeProps) {
             0
           );
           const lines = Math.round(bytesTotal / 50);
-          const hours = Math.round(lines / LINES_PER_HOUR);
 
-          setStats({ lines, hours });
+          // Calculate range: optimistic = fewer hours, conservative = more hours
+          const hoursMin = Math.round(lines / LINES_PER_HOUR_OPTIMISTIC);
+          const hoursMax = Math.round(lines / LINES_PER_HOUR_CONSERVATIVE);
+
+          setStats({ lines, hoursMin, hoursMax });
         }
       } catch (error) {
         console.error("Error fetching repo stats:", error);
@@ -68,8 +74,10 @@ export function RepoStatsBadge({ githubRepo }: RepoStatsBadgeProps) {
       </div>
       <div className="flex items-center gap-1">
         <Clock className="h-3 w-3" />
-        <span className="font-medium">{stats.hours}</span>
-        <span>dev hours</span>
+        <span className="font-medium">
+          {stats.hoursMin}-{stats.hoursMax}
+        </span>
+        <span>hrs</span>
       </div>
     </div>
   );
