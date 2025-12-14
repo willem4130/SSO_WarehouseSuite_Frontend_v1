@@ -1173,27 +1173,6 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
-        {/* Hero Section */}
-        <div className="mb-6 sm:mb-8 flex items-center gap-4 sm:gap-6 px-2 sm:px-4 py-4 sm:py-6">
-          <div className="relative h-16 w-16 sm:h-20 sm:w-20 lg:h-24 lg:w-24 flex-shrink-0 animate-[float_6s_ease-in-out_infinite]">
-            <Image
-              src="/branding/scexie-mascot.png"
-              alt="Scexie"
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-1 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
-              Welcome to SCEX
-            </h2>
-            <p className="text-sm sm:text-base text-muted-foreground">
-              Your comprehensive application ecosystem
-            </p>
-          </div>
-        </div>
-
         {/* Hero Metrics Strip */}
         <HeroMetricsStrip />
 
