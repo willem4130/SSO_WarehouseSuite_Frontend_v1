@@ -450,19 +450,17 @@ function AppInfoModal({ app }: { app: App }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8 rounded-full hover:bg-primary/10 hover:text-primary"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <Info className="h-4 w-4" />
-        </Button>
-      </DialogTrigger>
+      <div onClick={(e) => e.stopPropagation()}>
+        <DialogTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 rounded-full hover:bg-primary/10 hover:text-primary"
+          >
+            <Info className="h-4 w-4" />
+          </Button>
+        </DialogTrigger>
+      </div>
       <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <div className="flex items-center gap-3 mb-2">
