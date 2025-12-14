@@ -151,6 +151,34 @@ const apps: App[] = [
     icon: <Calculator className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
+    info: {
+      overview:
+        "Truck Type Calculator and Total Cost of Ownership (TCO) analysis tool. Helps determine optimal trailer types and calculate comprehensive ownership costs for warehouse and logistics operations.",
+      keyFeatures: [
+        "Trailer type recommendations based on load requirements",
+        "Comprehensive TCO calculations (purchase, maintenance, fuel, etc.)",
+        "Side-by-side comparison of different truck/trailer options",
+        "Cost breakdown by category (capital, operational, maintenance)",
+        "Customizable parameters for accurate cost modeling",
+        "Export reports for budget planning and presentations",
+      ],
+      howToUse: [
+        "Navigate to the calculator page",
+        "Enter your load requirements (weight, volume, frequency)",
+        "Select trailer types to compare",
+        "Input cost parameters (purchase price, fuel costs, maintenance)",
+        "Review the calculated TCO for each option",
+        "Export the comparison report for decision-making",
+      ],
+      tips: [
+        "Include all costs (insurance, licensing, storage) for accurate TCO",
+        "Use historical data from similar operations if available",
+        "Factor in depreciation over your expected ownership period",
+        "Compare at least 3 options to ensure you're finding the best value",
+        "Update fuel costs regularly as they fluctuate significantly",
+      ],
+      githubRepo: "https://github.com/willem4130/sso-trucktypecalculator-2.0",
+    },
   },
   {
     id: "scenario-simulator",
@@ -553,14 +581,16 @@ function AppInfoModal({ app }: { app: App }) {
 
 // App Card Component
 function AppCard({ app }: { app: App }) {
+  const handleCardClick = () => {
+    window.open(app.url, "_blank", "noopener,noreferrer");
+  };
+
   return (
-    <a
-      href={app.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group transition-all duration-300 hover:scale-[1.02]"
-    >
-      <Card className="h-full cursor-pointer transition-all duration-300 hover:border-primary hover:shadow-lg hover:shadow-primary/20 relative overflow-hidden">
+    <div className="group transition-all duration-300 hover:scale-[1.02]">
+      <Card
+        className="h-full cursor-pointer transition-all duration-300 hover:border-primary hover:shadow-lg hover:shadow-primary/20 relative overflow-hidden"
+        onClick={handleCardClick}
+      >
         {/* Animated gradient overlay on hover */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -617,7 +647,7 @@ function AppCard({ app }: { app: App }) {
           </div>
         </CardContent>
       </Card>
-    </a>
+    </div>
   );
 }
 
