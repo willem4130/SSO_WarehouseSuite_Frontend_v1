@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { CodeStatsKPI } from "@/components/code-stats-kpi";
 import { RepoStatsBadge } from "@/components/repo-stats-badge";
+import { DevMetricsModal } from "@/components/dev-metrics-modal";
 import {
   Search,
   HelpCircle,
@@ -946,6 +946,7 @@ export default function Home() {
               >
                 <HelpCircle className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
+              <DevMetricsModal />
               <ThemeToggle />
             </div>
           </div>
@@ -973,11 +974,6 @@ export default function Home() {
               Your comprehensive application ecosystem
             </p>
           </div>
-        </div>
-
-        {/* Development Impact KPIs */}
-        <div className="mb-6 sm:mb-8">
-          <CodeStatsKPI />
         </div>
 
         {/* Search and Filters */}
