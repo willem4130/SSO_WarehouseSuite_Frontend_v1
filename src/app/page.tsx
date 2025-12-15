@@ -1546,13 +1546,6 @@ export default function Home() {
               >
                 Documentation
               </a>
-              <span className="text-muted-foreground">•</span>
-              <a
-                href="#"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Support
-              </a>
             </div>
           </div>
         </div>
