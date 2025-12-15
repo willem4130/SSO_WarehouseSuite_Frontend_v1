@@ -83,7 +83,8 @@ interface App {
   isExternal: boolean;
   isCustomBuild: boolean; // true for SCEX custom builds, false for 3rd party platforms
   progress?: number;
-  complexity?: 1 | 2 | 3 | 4 | 5; // 1=Beginner, 2=Basic, 3=Intermediate, 4=Advanced, 5=Expert
+  complexity?: 1 | 2 | 3 | 4 | 5; // Complexity score
+  complexityPercent?: number; // 0-100
   info?: AppInfo;
 }
 
@@ -123,7 +124,8 @@ const apps: App[] = [
     icon: <TrendingUp className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
-    complexity: 4,
+    complexity: 5,
+    complexityPercent: 95,
     info: {
       overview:
         "A powerful sales forecasting tool designed for LinkedIn and other platforms. Features interactive BI dashboards, advanced filtering, and professional data visualization. Built with Next.js 16 and includes demo mode for presentations.",
@@ -188,6 +190,7 @@ const apps: App[] = [
     isExternal: true,
     isCustomBuild: true,
     complexity: 3,
+    complexityPercent: 65,
     info: {
       overview:
         "Truck Type Calculator and Total Cost of Ownership (TCO) analysis tool. Helps determine optimal trailer types and calculate comprehensive ownership costs for warehouse and logistics operations.",
@@ -252,7 +255,8 @@ const apps: App[] = [
     icon: <TrendingUp className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
-    complexity: 4,
+    complexity: 5,
+    complexityPercent: 98,
     progress: 15,
     info: {
       overview:
@@ -321,6 +325,7 @@ const apps: App[] = [
     isExternal: true,
     isCustomBuild: true,
     complexity: 3,
+    complexityPercent: 68,
     progress: 70,
     info: {
       overview:
@@ -398,6 +403,7 @@ const apps: App[] = [
     isExternal: true,
     isCustomBuild: true,
     complexity: 4,
+    complexityPercent: 85,
     info: {
       overview:
         "Automated company research tool that scrapes company information and syncs it directly with HubSpot CRM. Integrates with N8N workflows for automated lead enrichment and contact management.",
@@ -473,7 +479,8 @@ const apps: App[] = [
     icon: <Zap className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
-    complexity: 4,
+    complexity: 5,
+    complexityPercent: 95,
     info: {
       overview:
         "Production-ready automation system for Simplicate project management. Handles contract distribution, hours reminders, and automated invoice generation. Reduces manual work and ensures timely project tracking.",
@@ -596,6 +603,7 @@ const apps: App[] = [
     isExternal: true,
     isCustomBuild: true,
     complexity: 3,
+    complexityPercent: 66,
     progress: 30,
     info: {
       overview:
@@ -660,6 +668,7 @@ const apps: App[] = [
     isExternal: true,
     isCustomBuild: true,
     complexity: 3,
+    complexityPercent: 65,
     info: {
       overview:
         "PowerPoint Office Add-in for managing placeholders in presentation templates. Streamlines the process of creating and maintaining consistent branded presentations with dynamic content replacement.",
@@ -1059,25 +1068,26 @@ function AppCard({ app }: { app: App }) {
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Complexity Rating */}
-                {app.complexity && (
-                  <div className="flex items-center gap-1.5 text-xs">
-                    <span className="text-muted-foreground font-medium">
-                      Level:
+                {app.complexityPercent !== undefined && (
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-muted-foreground font-medium text-xs">
+                      Complexity:
                     </span>
-                    <div className="flex items-center gap-0.5">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <span
-                          key={i}
-                          className={`text-xs ${
-                            i < app.complexity!
-                              ? "text-amber-500"
-                              : "text-muted-foreground/30"
-                          }`}
-                        >
-                          ★
-                        </span>
-                      ))}
-                    </div>
+                    <span
+                      className={`px-2 py-0.5 rounded-md text-xs font-bold ${
+                        app.complexityPercent >= 91
+                          ? "bg-purple-500/15 text-purple-700 dark:text-purple-400 border border-purple-500/30"
+                          : app.complexityPercent >= 76
+                            ? "bg-red-500/15 text-red-700 dark:text-red-400 border border-red-500/30"
+                            : app.complexityPercent >= 61
+                              ? "bg-orange-500/15 text-orange-700 dark:text-orange-400 border border-orange-500/30"
+                              : app.complexityPercent >= 41
+                                ? "bg-blue-500/15 text-blue-700 dark:text-blue-400 border border-blue-500/30"
+                                : "bg-green-500/15 text-green-700 dark:text-green-400 border border-green-500/30"
+                      }`}
+                    >
+                      {app.complexityPercent}%
+                    </span>
                   </div>
                 )}
                 {/* Repo Stats Badge */}
