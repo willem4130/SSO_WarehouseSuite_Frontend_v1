@@ -15,6 +15,8 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { RepoStatsBadge } from "@/components/repo-stats-badge";
 import { DevMetricsModal } from "@/components/dev-metrics-modal";
 import { UpdateStatsButton } from "@/components/update-stats-button";
+import { FeedbackModal } from "@/components/feedback-modal";
+import { FeedbackAdminModal } from "@/components/feedback-admin-modal";
 import {
   Search,
   BarChart3,
@@ -85,6 +87,8 @@ interface App {
   progress?: number;
   complexity?: 1 | 2 | 3 | 4 | 5; // Complexity score
   complexityPercent?: number; // 0-100
+  apiConnections?: number; // Number of external API integrations
+  runningCost?: number; // Monthly running cost in USD (optional)
   info?: AppInfo;
 }
 
@@ -126,6 +130,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 5,
     complexityPercent: 95,
+    apiConnections: 1,
     info: {
       overview:
         "A powerful sales forecasting tool designed for LinkedIn and other platforms. Features interactive BI dashboards, advanced filtering, and professional data visualization. Built with Next.js 16 and includes demo mode for presentations.",
@@ -191,6 +196,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 3,
     complexityPercent: 65,
+    apiConnections: 1,
     info: {
       overview:
         "Truck Type Calculator and Total Cost of Ownership (TCO) analysis tool. Helps determine optimal trailer types and calculate comprehensive ownership costs for warehouse and logistics operations.",
@@ -257,6 +263,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 5,
     complexityPercent: 98,
+    apiConnections: 1,
     progress: 15,
     info: {
       overview:
@@ -326,6 +333,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 3,
     complexityPercent: 68,
+    apiConnections: 1,
     progress: 70,
     info: {
       overview:
@@ -404,6 +412,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 4,
     complexityPercent: 85,
+    apiConnections: 2,
     info: {
       overview:
         "Automated company research tool that scrapes company information and syncs it directly with HubSpot CRM. Integrates with N8N workflows for automated lead enrichment and contact management.",
@@ -481,6 +490,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 5,
     complexityPercent: 95,
+    apiConnections: 2,
     info: {
       overview:
         "Production-ready automation system for Simplicate project management. Handles contract distribution, hours reminders, and automated invoice generation. Reduces manual work and ensures timely project tracking.",
@@ -604,6 +614,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 3,
     complexityPercent: 66,
+    apiConnections: 1,
     progress: 30,
     info: {
       overview:
@@ -669,6 +680,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 3,
     complexityPercent: 65,
+    apiConnections: 1,
     info: {
       overview:
         "PowerPoint Office Add-in for managing placeholders in presentation templates. Streamlines the process of creating and maintaining consistent branded presentations with dynamic content replacement.",
@@ -1021,6 +1033,7 @@ function AppCard({ app }: { app: App }) {
                   {statusLabels[app.status]}
                 </span>
                 {app.info && <AppInfoModal app={app} />}
+                <FeedbackModal appId={app.id} appName={app.name} />
               </div>
               {app.progress !== undefined && (
                 <div className="flex items-center gap-2">
@@ -1064,7 +1077,7 @@ function AppCard({ app }: { app: App }) {
             {/* Complexity & Repo Stats - for custom builds */}
             {app.isCustomBuild && (
               <div
-                className="flex items-center gap-3"
+                className="flex items-center gap-3 flex-wrap"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Complexity Rating */}
@@ -1089,6 +1102,20 @@ function AppCard({ app }: { app: App }) {
                       {app.complexityPercent}%
                     </span>
                   </div>
+                )}
+                {/* API Connections */}
+                {app.apiConnections !== undefined && (
+                  <>
+                    <span className="text-muted-foreground/40">•</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-muted-foreground font-medium text-xs">
+                        APIs:
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md text-xs font-bold bg-blue-500/15 text-blue-700 dark:text-blue-400 border border-blue-500/30">
+                        {app.apiConnections}
+                      </span>
+                    </div>
+                  </>
                 )}
                 {/* Repo Stats Badge */}
                 {app.info?.githubRepo && (
@@ -1117,6 +1144,13 @@ export default function Home() {
   const [selectedBuildType, setSelectedBuildType] = useState<
     "all" | "custom" | "external"
   >("all");
+
+  // Calculate total API connections from custom builds
+  const totalApiConnections = useMemo(() => {
+    return apps
+      .filter((app) => app.isCustomBuild && app.apiConnections)
+      .reduce((sum, app) => sum + (app.apiConnections || 0), 0);
+  }, []);
 
   const filteredApps = useMemo(() => {
     return apps.filter((app) => {
@@ -1187,12 +1221,21 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary/5 border border-primary/20">
-                <Zap className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium text-foreground">
-                  9 Apps
-                </span>
+              <div className="hidden sm:flex items-center gap-2">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary/5 border border-primary/20">
+                  <Zap className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-medium text-foreground">
+                    9 Apps
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-blue-500/5 border border-blue-500/20">
+                  <Database className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <span className="text-sm font-medium text-foreground">
+                    {totalApiConnections} APIs
+                  </span>
+                </div>
               </div>
+              <FeedbackAdminModal />
               <UpdateStatsButton />
               <DevMetricsModal />
               <ThemeToggle />

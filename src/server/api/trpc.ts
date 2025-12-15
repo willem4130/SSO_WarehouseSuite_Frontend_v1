@@ -4,12 +4,14 @@ import { cache } from "react";
 import superjson from "superjson";
 import { ZodError } from "zod";
 import { auth } from "@/server/auth";
+import { prisma } from "@/server/db";
 
 export const createTRPCContext = cache(async () => {
   const session = await auth();
 
   return {
     session,
+    db: prisma,
   };
 });
 

@@ -60,3 +60,35 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+// Feedback & Issue Tracking
+model Feedback {
+  id          String   @id @default(cuid())
+  appId       String   // ID of the app this feedback is for
+  appName     String   // Name of the app for easy reference
+  type        String   // bug, feature, issue, question, improvement
+  title       String
+  description String   @db.Text
+  status      String   @default("open") // open, in_progress, resolved, closed
+  priority    String   @default("medium") // low, medium, high, critical
+  submittedBy String   // User name or email
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  responses   FeedbackResponse[]
+
+  @@index([appId])
+  @@index([status])
+  @@index([type])
+}
+
+model FeedbackResponse {
+  id         String   @id @default(cuid())
+  feedbackId String
+  feedback   Feedback @relation(fields: [feedbackId], references: [id], onDelete: Cascade)
+  message    String   @db.Text
+  author     String   // Name of the person responding
+  isInternal Boolean  @default(false) // True for developer notes, false for user-visible responses
+  createdAt  DateTime @default(now())
+
+  @@index([feedbackId])
+}
