@@ -61,13 +61,19 @@ tests/
 - Build time: ~1-2 minutes
 - Database migrations run automatically via `prisma generate` in build command
 
-**Deploy to Production (REQUIRED after every git push):**
+**Standard Deployment Workflow:**
 
 ```bash
+# After making changes, commit and push
+git add .
+git commit -m "Your commit message"
+git push
+
+# IMMEDIATELY deploy to production (GitHub webhooks are not working)
 vercel --prod --force --scope willem4130s-projects --yes
 ```
 
-**Note:** Run this command from the project root after pushing to GitHub. The GitHub webhook integration is not working reliably, so manual deploys are required.
+**⚠️ CRITICAL:** GitHub webhook auto-deploys are failing due to project configuration issues. You **MUST** run the manual deploy command after every `git push`. This is not optional - production will not update otherwise.
 
 **⚠️ IMPORTANT:**
 
