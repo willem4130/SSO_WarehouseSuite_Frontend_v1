@@ -759,18 +759,29 @@ const statusLabels: Record<AppStatus, string> = {
 };
 
 // App Info Modal Component
-function AppInfoModal({ app }: { app: App }) {
-  const [open, setOpen] = useState(false);
+function AppInfoModal({
+  app,
+  open,
+  setOpen,
+}: {
+  app: App;
+  open?: boolean;
+  setOpen?: (open: boolean) => void;
+}) {
+  const [internalOpen, setInternalOpen] = useState(false);
   const { getRepoStats } = useRepoStats();
 
   if (!app.info) return null;
+
+  const isOpen = open !== undefined ? open : internalOpen;
+  const handleSetOpen = setOpen !== undefined ? setOpen : setInternalOpen;
 
   const repoStats = app.info.githubRepo
     ? getRepoStats(app.info.githubRepo)
     : null;
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={isOpen} onOpenChange={handleSetOpen}>
       <div onClick={(e) => e.stopPropagation()}>
         <DialogTrigger asChild>
           <Button
@@ -1049,6 +1060,8 @@ function AppInfoModal({ app }: { app: App }) {
 
 // App Card Component
 function AppCard({ app }: { app: App }) {
+  const [infoModalOpen, setInfoModalOpen] = useState(false);
+
   const handleCardClick = () => {
     window.open(app.url, "_blank", "noopener,noreferrer");
   };
@@ -1074,7 +1087,13 @@ function AppCard({ app }: { app: App }) {
                 >
                   {statusLabels[app.status]}
                 </span>
-                {app.info && <AppInfoModal app={app} />}
+                {app.info && (
+                  <AppInfoModal
+                    app={app}
+                    open={infoModalOpen}
+                    setOpen={setInfoModalOpen}
+                  />
+                )}
                 <FeedbackModal appId={app.id} appName={app.name} />
               </div>
               {app.progress !== undefined && (
@@ -1116,29 +1135,33 @@ function AppCard({ app }: { app: App }) {
               <ChevronRight className="h-4 w-4 text-muted-foreground transition-all duration-300 group-hover:translate-x-1 group-hover:text-primary" />
             </div>
 
-            {/* Complexity & Repo Stats - for custom builds */}
-            {app.isCustomBuild && (
+            {/* Complexity & Repo Stats - for custom builds - Click to view details */}
+            {app.isCustomBuild && app.info && (
               <div
-                className="flex items-center gap-3 flex-wrap"
-                onClick={(e) => e.stopPropagation()}
+                className="flex items-center gap-3 flex-wrap cursor-pointer group/stats hover:bg-accent/50 -mx-2 px-2 py-1.5 rounded-md transition-all duration-200"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setInfoModalOpen(true);
+                }}
+                title="Click for detailed information"
               >
                 {/* Complexity Rating */}
                 {app.complexityPercent !== undefined && (
                   <div className="flex items-center gap-1.5">
-                    <span className="text-muted-foreground font-medium text-xs">
+                    <span className="text-muted-foreground font-medium text-xs group-hover/stats:text-foreground transition-colors">
                       Complexity:
                     </span>
                     <span
-                      className={`px-2 py-0.5 rounded-md text-xs font-bold ${
+                      className={`px-2 py-0.5 rounded-md text-xs font-bold transition-all duration-200 group-hover/stats:scale-105 ${
                         app.complexityPercent >= 91
-                          ? "bg-purple-500/15 text-purple-700 dark:text-purple-400 border border-purple-500/30"
+                          ? "bg-purple-500/15 text-purple-700 dark:text-purple-400 border border-purple-500/30 group-hover/stats:bg-purple-500/25"
                           : app.complexityPercent >= 76
-                            ? "bg-red-500/15 text-red-700 dark:text-red-400 border border-red-500/30"
+                            ? "bg-red-500/15 text-red-700 dark:text-red-400 border border-red-500/30 group-hover/stats:bg-red-500/25"
                             : app.complexityPercent >= 61
-                              ? "bg-orange-500/15 text-orange-700 dark:text-orange-400 border border-orange-500/30"
+                              ? "bg-orange-500/15 text-orange-700 dark:text-orange-400 border border-orange-500/30 group-hover/stats:bg-orange-500/25"
                               : app.complexityPercent >= 41
-                                ? "bg-blue-500/15 text-blue-700 dark:text-blue-400 border border-blue-500/30"
-                                : "bg-green-500/15 text-green-700 dark:text-green-400 border border-green-500/30"
+                                ? "bg-blue-500/15 text-blue-700 dark:text-blue-400 border border-blue-500/30 group-hover/stats:bg-blue-500/25"
+                                : "bg-green-500/15 text-green-700 dark:text-green-400 border border-green-500/30 group-hover/stats:bg-green-500/25"
                       }`}
                     >
                       {app.complexityPercent}%
@@ -1150,10 +1173,10 @@ function AppCard({ app }: { app: App }) {
                   <>
                     <span className="text-muted-foreground/40">•</span>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-muted-foreground font-medium text-xs">
+                      <span className="text-muted-foreground font-medium text-xs group-hover/stats:text-foreground transition-colors">
                         Interfaces:
                       </span>
-                      <span className="px-2 py-0.5 rounded-md text-xs font-bold bg-blue-500/15 text-blue-700 dark:text-blue-400 border border-blue-500/30">
+                      <span className="px-2 py-0.5 rounded-md text-xs font-bold bg-blue-500/15 text-blue-700 dark:text-blue-400 border border-blue-500/30 transition-all duration-200 group-hover/stats:scale-105 group-hover/stats:bg-blue-500/25">
                         {app.apiConnections}
                       </span>
                     </div>
@@ -1163,9 +1186,12 @@ function AppCard({ app }: { app: App }) {
                 {app.info?.githubRepo && (
                   <>
                     <span className="text-muted-foreground/40">•</span>
-                    <RepoStatsBadge githubRepo={app.info.githubRepo} />
+                    <div className="transition-all duration-200 group-hover/stats:scale-105">
+                      <RepoStatsBadge githubRepo={app.info.githubRepo} />
+                    </div>
                   </>
                 )}
+                <Info className="h-3.5 w-3.5 text-muted-foreground/50 group-hover/stats:text-primary transition-colors ml-auto" />
               </div>
             )}
           </div>
