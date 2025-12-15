@@ -1263,22 +1263,22 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
-              <div className="hidden sm:flex items-center gap-2">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary/5 border border-primary/20">
+              <FeedbackAdminModal />
+              <UpdateStatsButton />
+              <div className="hidden sm:flex items-center gap-0 rounded-md overflow-hidden border border-border">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-primary/5 border-r border-border">
                   <Zap className="h-4 w-4 text-primary" />
                   <span className="text-sm font-medium text-foreground">
                     9 Apps
                   </span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-blue-500/5 border border-blue-500/20">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/5">
                   <Database className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                   <span className="text-sm font-medium text-foreground">
                     {totalInterfaces} Interfaces
                   </span>
                 </div>
               </div>
-              <FeedbackAdminModal />
-              <UpdateStatsButton />
               <DevMetricsModal />
               <ThemeToggle />
             </div>
