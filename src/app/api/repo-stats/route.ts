@@ -5,11 +5,19 @@ const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
 let cachedData: RepoStats[] | null = null;
 let lastFetchTime = 0;
 
+interface Release {
+  version: string;
+  name: string;
+  publishedAt: string;
+  notes: string;
+}
+
 interface RepoStats {
   repo: string;
   lines: number;
   hoursMin: number;
   hoursMax: number;
+  releases?: Release[];
 }
 
 const LINES_PER_HOUR_OPTIMISTIC = 5.0;
@@ -44,21 +52,30 @@ export async function GET() {
 
     for (const repo of REPOS) {
       try {
-        const response = await fetch(
+        const headers = githubToken
+          ? { Authorization: `Bearer ${githubToken}` }
+          : {};
+
+        // Fetch language stats
+        const langResponse = await fetch(
           `https://api.github.com/repos/${repo}/languages`,
           {
-            headers: githubToken
-              ? {
-                  Authorization: `Bearer ${githubToken}`,
-                }
-              : {},
-            // Add cache control
+            headers,
             next: { revalidate: 3600 }, // Cache for 1 hour
           }
         );
 
-        if (response.ok) {
-          const languages = await response.json();
+        // Fetch releases
+        const releasesResponse = await fetch(
+          `https://api.github.com/repos/${repo}/releases?per_page=5`,
+          {
+            headers,
+            next: { revalidate: 3600 }, // Cache for 1 hour
+          }
+        );
+
+        if (langResponse.ok) {
+          const languages = await langResponse.json();
           const bytesTotal = Object.values(languages).reduce(
             (sum: number, bytes) => sum + (bytes as number),
             0
@@ -67,14 +84,32 @@ export async function GET() {
           const hoursMin = Math.round(lines / LINES_PER_HOUR_OPTIMISTIC);
           const hoursMax = Math.round(lines / LINES_PER_HOUR_CONSERVATIVE);
 
+          // Parse releases
+          let releases: Release[] = [];
+          if (releasesResponse.ok) {
+            const releasesData = (await releasesResponse.json()) as Array<{
+              tag_name: string;
+              name: string;
+              published_at: string;
+              body: string;
+            }>;
+            releases = releasesData.slice(0, 5).map((release) => ({
+              version: release.tag_name,
+              name: release.name || release.tag_name,
+              publishedAt: release.published_at,
+              notes: release.body || "No release notes provided.",
+            }));
+          }
+
           stats.push({
             repo,
             lines,
             hoursMin,
             hoursMax,
+            releases,
           });
         } else {
-          console.error(`Failed to fetch ${repo}: ${response.status}`);
+          console.error(`Failed to fetch ${repo}: ${langResponse.status}`);
         }
       } catch (error) {
         console.error(`Error fetching ${repo}:`, error);

@@ -17,6 +17,7 @@ import { DevMetricsModal } from "@/components/dev-metrics-modal";
 import { UpdateStatsButton } from "@/components/update-stats-button";
 import { FeedbackModal } from "@/components/feedback-modal";
 import { FeedbackAdminModal } from "@/components/feedback-admin-modal";
+import { useRepoStats, type Release } from "@/hooks/use-repo-stats";
 import {
   Search,
   BarChart3,
@@ -760,8 +761,13 @@ const statusLabels: Record<AppStatus, string> = {
 // App Info Modal Component
 function AppInfoModal({ app }: { app: App }) {
   const [open, setOpen] = useState(false);
+  const { getRepoStats } = useRepoStats();
 
   if (!app.info) return null;
+
+  const repoStats = app.info.githubRepo
+    ? getRepoStats(app.info.githubRepo)
+    : null;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -987,6 +993,42 @@ function AppInfoModal({ app }: { app: App }) {
                 View on GitHub
               </a>
               <RepoStatsBadge githubRepo={app.info.githubRepo} />
+
+              {/* Latest Releases */}
+              {repoStats?.releases && repoStats.releases.length > 0 && (
+                <div className="mt-4 space-y-3">
+                  <h4 className="text-sm font-semibold text-foreground">
+                    Latest Releases
+                  </h4>
+                  <div className="space-y-2">
+                    {repoStats.releases.map(
+                      (release: Release, index: number) => (
+                        <div
+                          key={index}
+                          className="p-3 rounded-md bg-muted border border-border"
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="font-semibold text-sm text-foreground">
+                              {release.version}
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              {new Date(release.publishedAt).toLocaleString()}
+                            </span>
+                          </div>
+                          {release.name !== release.version && (
+                            <p className="text-sm font-medium text-foreground mb-1">
+                              {release.name}
+                            </p>
+                          )}
+                          <p className="text-xs text-muted-foreground line-clamp-3">
+                            {release.notes}
+                          </p>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

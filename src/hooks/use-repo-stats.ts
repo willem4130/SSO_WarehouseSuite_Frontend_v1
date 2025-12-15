@@ -1,11 +1,4 @@
-import { REPO_STATS } from "@/data/repo-stats";
-
-interface RepoStat {
-  repo: string;
-  lines: number;
-  hoursMin: number;
-  hoursMax: number;
-}
+import { REPO_STATS, type Release, type RepoStat } from "@/data/repo-stats";
 
 interface RepoStatsResponse {
   stats: RepoStat[];
@@ -18,15 +11,22 @@ export function useRepoStats() {
     cached: true,
   };
 
-  return { data, loading: false, error: null };
+  const getRepoStats = (githubRepo: string): RepoStat | null => {
+    return (
+      data.stats.find((s) => githubRepo.includes(s.repo.split("/")[1] || "")) ||
+      null
+    );
+  };
+
+  return { data, loading: false, error: null, getRepoStats };
 }
 
 export function useRepoStat(githubRepo: string) {
-  const { data, loading, error } = useRepoStats();
+  const { loading, error, getRepoStats } = useRepoStats();
 
-  const stat = data?.stats.find((s) =>
-    githubRepo.includes(s.repo.split("/")[1] || "")
-  );
+  const stat = getRepoStats(githubRepo);
 
   return { stat, loading, error };
 }
+
+export type { Release, RepoStat };
