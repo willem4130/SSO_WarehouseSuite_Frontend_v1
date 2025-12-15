@@ -131,7 +131,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 5,
     complexityPercent: 95,
-    apiConnections: 1,
+    apiConnections: 22, // 8 entities + ~14 CRUD endpoints
     info: {
       overview:
         "A powerful sales forecasting tool designed for LinkedIn and other platforms. Features interactive BI dashboards, advanced filtering, and professional data visualization. Built with Next.js 16 and includes demo mode for presentations.",
@@ -197,7 +197,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 3,
     complexityPercent: 65,
-    apiConnections: 1,
+    apiConnections: 17, // 6 entities + ~11 CRUD endpoints
     info: {
       overview:
         "Truck Type Calculator and Total Cost of Ownership (TCO) analysis tool. Helps determine optimal trailer types and calculate comprehensive ownership costs for warehouse and logistics operations.",
@@ -264,7 +264,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 5,
     complexityPercent: 98,
-    apiConnections: 1,
+    apiConnections: 26, // 9 entities + ~17 endpoints for simulations
     progress: 15,
     info: {
       overview:
@@ -334,7 +334,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 3,
     complexityPercent: 68,
-    apiConnections: 1,
+    apiConnections: 14, // 5 entities + ~9 CRUD endpoints
     progress: 70,
     info: {
       overview:
@@ -413,7 +413,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 4,
     complexityPercent: 85,
-    apiConnections: 2,
+    apiConnections: 15, // 4 entities + HubSpot API (~8 endpoints) + N8N webhooks (~3)
     info: {
       overview:
         "Automated company research tool that scrapes company information and syncs it directly with HubSpot CRM. Integrates with N8N workflows for automated lead enrichment and contact management.",
@@ -491,7 +491,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 5,
     complexityPercent: 95,
-    apiConnections: 2,
+    apiConnections: 38, // 12 entities + Simplicate API (~15 endpoints) + email/slack (~8) + DB queries (~3)
     info: {
       overview:
         "Production-ready automation system for Simplicate project management. Handles contract distribution, hours reminders, and automated invoice generation. Reduces manual work and ensures timely project tracking.",
@@ -615,7 +615,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 3,
     complexityPercent: 66,
-    apiConnections: 1,
+    apiConnections: 20, // 7 entities + ~13 CRUD endpoints
     progress: 30,
     info: {
       overview:
@@ -681,7 +681,7 @@ const apps: App[] = [
     isCustomBuild: true,
     complexity: 3,
     complexityPercent: 65,
-    apiConnections: 1,
+    apiConnections: 11, // 3 entities + Office.js API (~8 endpoints)
     info: {
       overview:
         "PowerPoint Office Add-in for managing placeholders in presentation templates. Streamlines the process of creating and maintaining consistent branded presentations with dynamic content replacement.",
@@ -1145,13 +1145,13 @@ function AppCard({ app }: { app: App }) {
                     </span>
                   </div>
                 )}
-                {/* API Connections */}
+                {/* Interfaces Count */}
                 {app.apiConnections !== undefined && (
                   <>
                     <span className="text-muted-foreground/40">•</span>
                     <div className="flex items-center gap-1.5">
                       <span className="text-muted-foreground font-medium text-xs">
-                        APIs:
+                        Interfaces:
                       </span>
                       <span className="px-2 py-0.5 rounded-md text-xs font-bold bg-blue-500/15 text-blue-700 dark:text-blue-400 border border-blue-500/30">
                         {app.apiConnections}
@@ -1187,8 +1187,8 @@ export default function Home() {
     "all" | "custom" | "external"
   >("all");
 
-  // Calculate total API connections from custom builds
-  const totalApiConnections = useMemo(() => {
+  // Calculate total interfaces from custom builds
+  const totalInterfaces = useMemo(() => {
     return apps
       .filter((app) => app.isCustomBuild && app.apiConnections)
       .reduce((sum, app) => sum + (app.apiConnections || 0), 0);
@@ -1273,7 +1273,7 @@ export default function Home() {
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-blue-500/5 border border-blue-500/20">
                   <Database className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                   <span className="text-sm font-medium text-foreground">
-                    {totalApiConnections} APIs
+                    {totalInterfaces} Interfaces
                   </span>
                 </div>
               </div>
