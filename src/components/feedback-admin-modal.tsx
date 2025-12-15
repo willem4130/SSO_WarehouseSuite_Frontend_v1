@@ -200,157 +200,182 @@ export function FeedbackAdminModal() {
             </div>
           )}
 
-          {/* Filters */}
-          <div className="flex flex-wrap gap-2 mt-4">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-muted-foreground">
-                Status:
-              </span>
-              <Button
-                variant={selectedStatus === undefined ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSelectedStatus(undefined)}
-              >
-                All
-              </Button>
-              {["open", "in_progress", "resolved", "closed"].map((status) => (
-                <Button
-                  key={status}
-                  variant={selectedStatus === status ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedStatus(status)}
-                >
-                  {status.replace("_", " ")}
-                </Button>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-muted-foreground">
-                Type:
-              </span>
-              <Button
-                variant={selectedType === undefined ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSelectedType(undefined)}
-              >
-                All
-              </Button>
-              {["bug", "feature", "issue", "question", "improvement"].map(
-                (type) => (
+          {/* Filters & Sorting */}
+          <div className="mt-4 p-4 rounded-lg bg-muted/50 border border-border space-y-3">
+            {/* Status & Type Row */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+              {/* Status */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-muted-foreground w-20 shrink-0">
+                  Status:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
                   <Button
-                    key={type}
-                    variant={selectedType === type ? "default" : "outline"}
+                    variant={
+                      selectedStatus === undefined ? "default" : "outline"
+                    }
                     size="sm"
-                    onClick={() => setSelectedType(type)}
+                    onClick={() => setSelectedStatus(undefined)}
                   >
-                    {type}
+                    All
                   </Button>
-                )
-              )}
-            </div>
-          </div>
+                  {["open", "in_progress", "resolved", "closed"].map(
+                    (status) => (
+                      <Button
+                        key={status}
+                        variant={
+                          selectedStatus === status ? "default" : "outline"
+                        }
+                        size="sm"
+                        onClick={() => setSelectedStatus(status)}
+                      >
+                        {status.replace("_", " ")}
+                      </Button>
+                    )
+                  )}
+                </div>
+              </div>
 
-          {/* Grading Filters */}
-          <div className="flex flex-wrap gap-2 mt-2">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-muted-foreground">
-                Complexity:
-              </span>
-              <Button
-                variant={
-                  selectedComplexity === undefined ? "default" : "outline"
-                }
-                size="sm"
-                onClick={() => setSelectedComplexity(undefined)}
-              >
-                All
-              </Button>
-              {[1, 2, 3, 4, 5].map((level) => (
-                <Button
-                  key={level}
-                  variant={selectedComplexity === level ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedComplexity(level)}
-                >
-                  {level}
-                </Button>
-              ))}
+              {/* Type */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-muted-foreground w-20 shrink-0">
+                  Type:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  <Button
+                    variant={selectedType === undefined ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSelectedType(undefined)}
+                  >
+                    All
+                  </Button>
+                  {["bug", "feature", "issue", "question", "improvement"].map(
+                    (type) => (
+                      <Button
+                        key={type}
+                        variant={selectedType === type ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setSelectedType(type)}
+                      >
+                        {type}
+                      </Button>
+                    )
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className="flex flex-wrap gap-2 mt-2">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-muted-foreground">
-                Business Value:
-              </span>
-              <Button
-                variant={
-                  selectedBusinessValue === undefined ? "default" : "outline"
-                }
-                size="sm"
-                onClick={() => setSelectedBusinessValue(undefined)}
-              >
-                All
-              </Button>
-              {[1, 2, 3, 4, 5].map((level) => (
-                <Button
-                  key={level}
-                  variant={
-                    selectedBusinessValue === level ? "default" : "outline"
-                  }
-                  size="sm"
-                  onClick={() => setSelectedBusinessValue(level)}
-                >
-                  {level}
-                </Button>
-              ))}
+            <div className="border-t border-border"></div>
+
+            {/* Complexity & Business Value Row */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+              {/* Complexity */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-muted-foreground w-20 shrink-0">
+                  Complexity:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  <Button
+                    variant={
+                      selectedComplexity === undefined ? "default" : "outline"
+                    }
+                    size="sm"
+                    onClick={() => setSelectedComplexity(undefined)}
+                  >
+                    All
+                  </Button>
+                  {[1, 2, 3, 4, 5].map((level) => (
+                    <Button
+                      key={level}
+                      variant={
+                        selectedComplexity === level ? "default" : "outline"
+                      }
+                      size="sm"
+                      onClick={() => setSelectedComplexity(level)}
+                    >
+                      {level}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Business Value */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-muted-foreground w-20 shrink-0">
+                  Value:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  <Button
+                    variant={
+                      selectedBusinessValue === undefined
+                        ? "default"
+                        : "outline"
+                    }
+                    size="sm"
+                    onClick={() => setSelectedBusinessValue(undefined)}
+                  >
+                    All
+                  </Button>
+                  {[1, 2, 3, 4, 5].map((level) => (
+                    <Button
+                      key={level}
+                      variant={
+                        selectedBusinessValue === level ? "default" : "outline"
+                      }
+                      size="sm"
+                      onClick={() => setSelectedBusinessValue(level)}
+                    >
+                      {level}
+                    </Button>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* Sorting */}
-          <div className="flex flex-wrap gap-2 mt-4">
+            <div className="border-t border-border"></div>
+
+            {/* Sort By Row */}
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-muted-foreground">
+              <span className="text-sm font-medium text-muted-foreground w-20 shrink-0">
                 Sort by:
               </span>
-              <Button
-                variant={sortBy === "createdAt" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSortBy("createdAt")}
-              >
-                Date
-              </Button>
-              <Button
-                variant={sortBy === "businessValue" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSortBy("businessValue")}
-              >
-                Business Value
-              </Button>
-              <Button
-                variant={sortBy === "complexity" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSortBy("complexity")}
-              >
-                Complexity
-              </Button>
-              <Button
-                variant={sortBy === "estimatedHours" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSortBy("estimatedHours")}
-              >
-                Est. Hours
-              </Button>
-              <Button
-                variant={sortBy === "targetDate" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSortBy("targetDate")}
-              >
-                Target Date
-              </Button>
+              <div className="flex flex-wrap gap-1.5">
+                <Button
+                  variant={sortBy === "createdAt" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSortBy("createdAt")}
+                >
+                  Date
+                </Button>
+                <Button
+                  variant={sortBy === "businessValue" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSortBy("businessValue")}
+                >
+                  Business Value
+                </Button>
+                <Button
+                  variant={sortBy === "complexity" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSortBy("complexity")}
+                >
+                  Complexity
+                </Button>
+                <Button
+                  variant={sortBy === "estimatedHours" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSortBy("estimatedHours")}
+                >
+                  Est. Hours
+                </Button>
+                <Button
+                  variant={sortBy === "targetDate" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSortBy("targetDate")}
+                >
+                  Target Date
+                </Button>
+              </div>
             </div>
           </div>
 
