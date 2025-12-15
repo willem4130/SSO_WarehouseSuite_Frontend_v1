@@ -66,6 +66,12 @@ interface TechDetails {
   highlights?: string[];
 }
 
+interface ApiEndpoint {
+  method: string;
+  path: string;
+  description: string;
+}
+
 interface AppInfo {
   overview: string;
   keyFeatures: string[];
@@ -73,6 +79,7 @@ interface AppInfo {
   tips: string[];
   githubRepo?: string;
   techDetails?: TechDetails;
+  apiEndpoints?: ApiEndpoint[];
 }
 
 interface App {
@@ -182,6 +189,48 @@ const apps: App[] = [
           "Export to Excel/PDF functionality",
         ],
       },
+      apiEndpoints: [
+        {
+          method: "GET",
+          path: "/api/forecasts",
+          description: "Retrieve all forecasts with optional filters",
+        },
+        {
+          method: "POST",
+          path: "/api/forecasts",
+          description: "Create new forecast entry",
+        },
+        {
+          method: "PUT",
+          path: "/api/forecasts/:id",
+          description: "Update existing forecast",
+        },
+        {
+          method: "DELETE",
+          path: "/api/forecasts/:id",
+          description: "Delete forecast entry",
+        },
+        {
+          method: "GET",
+          path: "/api/products",
+          description: "List all products",
+        },
+        {
+          method: "GET",
+          path: "/api/regions",
+          description: "List all regions",
+        },
+        {
+          method: "GET",
+          path: "/api/analytics",
+          description: "Get analytics summary and metrics",
+        },
+        {
+          method: "POST",
+          path: "/api/export",
+          description: "Export forecast data to Excel/PDF",
+        },
+      ],
     },
   },
   {
@@ -1040,6 +1089,46 @@ function AppInfoModal({
                   </div>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* API Endpoints */}
+          {app.info.apiEndpoints && app.info.apiEndpoints.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <Globe className="h-5 w-5 text-primary" />
+                <h3 className="text-lg font-semibold">API Endpoints</h3>
+              </div>
+              <div className="space-y-2">
+                {app.info.apiEndpoints.map((endpoint, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start gap-3 p-3 rounded-md bg-muted/50 border border-border"
+                  >
+                    <span
+                      className={`px-2 py-0.5 rounded text-xs font-bold shrink-0 ${
+                        endpoint.method === "GET"
+                          ? "bg-blue-500/15 text-blue-700 dark:text-blue-400"
+                          : endpoint.method === "POST"
+                            ? "bg-green-500/15 text-green-700 dark:text-green-400"
+                            : endpoint.method === "PUT"
+                              ? "bg-orange-500/15 text-orange-700 dark:text-orange-400"
+                              : "bg-red-500/15 text-red-700 dark:text-red-400"
+                      }`}
+                    >
+                      {endpoint.method}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <code className="text-sm font-mono text-foreground">
+                        {endpoint.path}
+                      </code>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {endpoint.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 

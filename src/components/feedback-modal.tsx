@@ -95,7 +95,7 @@ export function FeedbackModal({ appId, appName }: FeedbackModalProps) {
                 { value: "feature", label: "Feature" },
                 { value: "issue", label: "Issue" },
                 { value: "question", label: "Question" },
-                { value: "improvement", label: "Improvement" },
+                { value: "improvement", label: "Idea" },
               ].map((type) => (
                 <button
                   key={type.value}
