@@ -35,14 +35,49 @@ public/
   └── branding/              # SCEX logos and mascot assets
 
 prisma/
-  └── schema.prisma         # Database models (NextAuth + custom)
+  ├── schema.prisma         # Database models (NextAuth + Feedback)
+  └── prisma.config.ts      # Prisma configuration
 
 tests/
   ├── unit/                  # Vitest unit tests
   └── e2e/                   # Playwright E2E tests
 ```
 
-**Tech Stack:** Next.js 16, React 19, TypeScript, tRPC, Prisma, PostgreSQL, NextAuth.js, Tailwind CSS, shadcn/ui
+**Tech Stack:** Next.js 16, React 19, TypeScript, tRPC, Prisma, PostgreSQL (Vercel Postgres/Neon), NextAuth.js, Tailwind CSS, shadcn/ui
+
+**Production:** Deployed on Vercel at https://ssowhsuitev1-eoyx5kghw-willem4130s-projects.vercel.app
+
+## Key Features
+
+### Feedback & Issue Tracking System
+
+- **User Submission**: All app tiles have feedback buttons for users to submit bugs, features, issues, questions, and improvements
+- **Admin Dashboard**: Fullscreen modal (98vw × 98vh) with filtering by status/type, responses, and status management
+- **Components**: `FeedbackModal` (user submission), `FeedbackAdminModal` (admin dashboard)
+- **Backend**: tRPC router at `src/server/api/routers/feedback.ts` with CRUD operations
+- **Database**: Prisma models for `Feedback` and `FeedbackResponse` in `schema.prisma`
+
+### GitHub Integration
+
+- **Repo Stats**: Displays lines of code and dev hours for custom builds
+- **Releases**: Shows latest 5 GitHub releases with dates and notes in app info modals
+- **API Route**: `src/app/api/repo-stats/route.ts` fetches data from GitHub API
+- **Static Data**: `src/data/repo-stats.ts` stores stats (manual updates via UpdateStatsButton)
+- **Environment**: Requires `GITHUB_TOKEN` in `.env.local` and Vercel environment
+
+### Interactive App Tiles
+
+- **Clickable Stats**: Complexity/Interfaces/Repo stats section opens AppInfoModal on click
+- **Hover Animations**: Scale effects, background changes, and color transitions for better UX
+- **Status Badges**: Production/In Progress/Beta with color coding
+- **Complexity Rating**: 0-100% color-coded badges (Purple 91-100%, Red 76-90%, Orange 61-75%, Blue 41-60%, Green 0-40%)
+
+### Database & Authentication
+
+- **PostgreSQL**: Vercel Postgres (Neon) for production
+- **Database Name**: `sso-warehouse-db`
+- **Models**: NextAuth (Account, Session, User, VerificationToken) + Feedback system
+- **Migration**: Use `npx prisma db push` for development, `npx prisma migrate deploy` for production
 
 ## Organization Rules
 
