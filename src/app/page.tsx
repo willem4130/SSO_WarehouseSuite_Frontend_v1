@@ -653,6 +653,17 @@ const apps: App[] = [
     isCustomBuild: false,
   },
   {
+    id: "wms-guide-admin",
+    name: "WMS GUIDE admin",
+    description: "Warehouse Management System admin portal",
+    url: "https://portal.scex.nl/nano/login",
+    category: "tools",
+    status: "production",
+    icon: <BookOpen className="h-5 w-5" />,
+    isExternal: true,
+    isCustomBuild: false,
+  },
+  {
     id: "raci-matrix",
     name: "RACI Matrix",
     description: "Responsibility assignment matrix for project clarity",
