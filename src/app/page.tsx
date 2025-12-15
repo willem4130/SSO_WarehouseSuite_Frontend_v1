@@ -83,6 +83,7 @@ interface App {
   isExternal: boolean;
   isCustomBuild: boolean; // true for SCEX custom builds, false for 3rd party platforms
   progress?: number;
+  complexity?: 1 | 2 | 3 | 4 | 5; // 1=Beginner, 2=Basic, 3=Intermediate, 4=Advanced, 5=Expert
   info?: AppInfo;
 }
 
@@ -122,6 +123,7 @@ const apps: App[] = [
     icon: <TrendingUp className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
+    complexity: 4,
     info: {
       overview:
         "A powerful sales forecasting tool designed for LinkedIn and other platforms. Features interactive BI dashboards, advanced filtering, and professional data visualization. Built with Next.js 16 and includes demo mode for presentations.",
@@ -185,6 +187,7 @@ const apps: App[] = [
     icon: <Calculator className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
+    complexity: 3,
     info: {
       overview:
         "Truck Type Calculator and Total Cost of Ownership (TCO) analysis tool. Helps determine optimal trailer types and calculate comprehensive ownership costs for warehouse and logistics operations.",
@@ -249,6 +252,7 @@ const apps: App[] = [
     icon: <TrendingUp className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
+    complexity: 4,
     progress: 15,
     info: {
       overview:
@@ -316,6 +320,7 @@ const apps: App[] = [
     icon: <Target className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
+    complexity: 3,
     progress: 70,
     info: {
       overview:
@@ -392,6 +397,7 @@ const apps: App[] = [
     icon: <Globe className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
+    complexity: 4,
     info: {
       overview:
         "Automated company research tool that scrapes company information and syncs it directly with HubSpot CRM. Integrates with N8N workflows for automated lead enrichment and contact management.",
@@ -467,6 +473,7 @@ const apps: App[] = [
     icon: <Zap className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
+    complexity: 4,
     info: {
       overview:
         "Production-ready automation system for Simplicate project management. Handles contract distribution, hours reminders, and automated invoice generation. Reduces manual work and ensures timely project tracking.",
@@ -588,6 +595,7 @@ const apps: App[] = [
     icon: <Database className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
+    complexity: 3,
     progress: 30,
     info: {
       overview:
@@ -651,6 +659,7 @@ const apps: App[] = [
     icon: <FileText className="h-5 w-5" />,
     isExternal: true,
     isCustomBuild: true,
+    complexity: 3,
     info: {
       overview:
         "PowerPoint Office Add-in for managing placeholders in presentation templates. Streamlines the process of creating and maintaining consistent branded presentations with dynamic content replacement.",
@@ -1043,10 +1052,41 @@ function AppCard({ app }: { app: App }) {
               <ChevronRight className="h-4 w-4 text-muted-foreground transition-all duration-300 group-hover:translate-x-1 group-hover:text-primary" />
             </div>
 
-            {/* Repo Stats Badge - shows lines of code and dev hours for custom builds */}
-            {app.isCustomBuild && app.info?.githubRepo && (
-              <div onClick={(e) => e.stopPropagation()}>
-                <RepoStatsBadge githubRepo={app.info.githubRepo} />
+            {/* Complexity & Repo Stats - for custom builds */}
+            {app.isCustomBuild && (
+              <div
+                className="flex items-center gap-3"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Complexity Rating */}
+                {app.complexity && (
+                  <div className="flex items-center gap-1.5 text-xs">
+                    <span className="text-muted-foreground font-medium">
+                      Level:
+                    </span>
+                    <div className="flex items-center gap-0.5">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <span
+                          key={i}
+                          className={`text-xs ${
+                            i < app.complexity!
+                              ? "text-amber-500"
+                              : "text-muted-foreground/30"
+                          }`}
+                        >
+                          ★
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {/* Repo Stats Badge */}
+                {app.info?.githubRepo && (
+                  <>
+                    <span className="text-muted-foreground/40">•</span>
+                    <RepoStatsBadge githubRepo={app.info.githubRepo} />
+                  </>
+                )}
               </div>
             )}
           </div>
