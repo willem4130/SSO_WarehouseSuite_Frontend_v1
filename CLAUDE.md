@@ -45,7 +45,34 @@ tests/
 
 **Tech Stack:** Next.js 16, React 19, TypeScript, tRPC, Prisma, PostgreSQL (Vercel Postgres/Neon), NextAuth.js, Tailwind CSS, shadcn/ui
 
-**Production:** Deployed on Vercel at https://ssowhsuitev1-eoyx5kghw-willem4130s-projects.vercel.app
+## 🚀 Production Deployment - CRITICAL
+
+**⚠️ IMPORTANT: There are TWO Vercel projects connected to this repository:**
+
+1. **scex-application-suite** (PRIMARY - USE THIS ONE)
+   - URL: https://scex-application-suite.vercel.app/
+   - Aliases: https://scex-application-suite-willem4130s-projects.vercel.app
+   - Status: ✅ Active production deployment
+   - **This is the official production URL**
+
+2. **ssowhsuitev1** (REDUNDANT - SCHEDULED FOR DELETION)
+   - URL: https://ssowhsuitev1.vercel.app/
+   - Aliases: https://ssowhsuitev1-willem4130s-projects.vercel.app
+   - Status: ⚠️ Duplicate deployment, will be deleted
+   - **Do not use or share this URL**
+
+**Why two deployments?**
+
+- Both projects are connected to the same GitHub repo
+- Both auto-deploy on every push to main branch
+- This is redundant and wastes build minutes
+- ssowhsuitev1 will be deleted once scex-application-suite is verified
+
+**Deployment process:**
+
+- Every `git push` to main triggers auto-deployment on BOTH projects
+- Builds take ~1-2 minutes
+- Database migrations run automatically via `prisma generate` in build command
 
 ## Key Features
 
