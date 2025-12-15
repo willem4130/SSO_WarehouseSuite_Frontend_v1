@@ -1,31 +1,25 @@
 import { NextResponse } from "next/server";
-import { exec } from "child_process";
-import { promisify } from "util";
+import { db } from "@/server/db";
 
-const execAsync = promisify(exec);
-
-// One-time migration route to sync database schema
+// One-time migration route to add screenshots column
 // DELETE THIS FILE after running once in production
 export async function GET() {
   try {
-    // Run prisma db push to sync schema
-    const { stdout, stderr } = await execAsync(
-      "npx prisma db push --accept-data-loss"
-    );
+    // Add screenshots column if it doesn't exist
+    await db.$executeRaw`
+      ALTER TABLE "Feedback"
+      ADD COLUMN IF NOT EXISTS "screenshots" TEXT[] DEFAULT ARRAY[]::TEXT[]
+    `;
 
     return NextResponse.json({
       success: true,
-      message: "Database schema synced successfully",
-      stdout,
-      stderr,
+      message: "Database schema synced successfully - screenshots column added",
     });
   } catch (error: any) {
     return NextResponse.json(
       {
         success: false,
         error: error.message,
-        stdout: error.stdout,
-        stderr: error.stderr,
       },
       { status: 500 }
     );
