@@ -91,32 +91,31 @@
 
 ### Medium Priority - UI Fixes
 
-#### 4. **Fix "Improvement" Button Text Overflow**
+#### 4. **Fix "Improvement" Button Text Overflow** ✅
 
-**Status**: Not started
-**Location**: `src/components/feedback-modal.tsx` line 98-102
-**Current**: "Improvement" (too long)
-**Change to**: "Idea" or "Enhancement"
+**Status**: Completed
+**Location**: `src/components/feedback-modal.tsx` line 98
+**Changed**: "Improvement" → "Idea"
 
-**Files to modify**:
+**Files modified**:
 
-- `src/components/feedback-modal.tsx`
+- ✅ `src/components/feedback-modal.tsx`
 
-#### 5. **List API Endpoints in App Info Modals**
+#### 5. **List API Endpoints in App Info Modals** ✅
 
-**Status**: Not started
-**Requirements**:
+**Status**: Completed
+**Implemented**:
 
-- [ ] Add "API Endpoints" section at bottom of AppInfoModal
-- [ ] List all endpoints for each custom build
-- [ ] Format: Method + Path + Description
-- [ ] Example: `GET /api/forecast` - Retrieve forecast data
-- [ ] Add to app data structure in page.tsx
+- ✅ Added "API Endpoints" section at bottom of AppInfoModal
+- ✅ Color-coded HTTP methods (GET=blue, POST=green, PUT=orange, DELETE=red)
+- ✅ Display: Method + Path + Description
+- ✅ Added ApiEndpoint interface to data structure
+- ✅ Added example endpoints for Forecaster app
 
-**Files to modify**:
+**Files modified**:
 
-- `src/app/page.tsx` - Add endpoints to app.info data
-- AppInfoModal section - Display endpoints list
+- ✅ `src/app/page.tsx` - Added ApiEndpoint interface and endpoints data
+- ✅ AppInfoModal section - Added endpoints display with color coding
 
 ### Low Priority - Documentation
 
