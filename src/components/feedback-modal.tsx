@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { MessageSquarePlus, Send } from "lucide-react";
+import { MessageSquarePlus, Send, X, Upload } from "lucide-react";
 import { trpc } from "@/lib/trpc-client";
 
 interface FeedbackModalProps {
@@ -28,6 +28,8 @@ export function FeedbackModal({ appId, appName }: FeedbackModalProps) {
     priority: "medium" as "low" | "medium" | "high" | "critical",
     submittedBy: "",
   });
+  const [screenshots, setScreenshots] = useState<string[]>([]);
+  const [uploadError, setUploadError] = useState<string>("");
 
   const createFeedback = trpc.feedback.create.useMutation({
     onSuccess: () => {
@@ -39,6 +41,8 @@ export function FeedbackModal({ appId, appName }: FeedbackModalProps) {
         priority: "medium",
         submittedBy: "",
       });
+      setScreenshots([]);
+      setUploadError("");
       alert("Thank you! Your feedback has been submitted.");
     },
     onError: (error: { message: string }) => {
@@ -46,12 +50,57 @@ export function FeedbackModal({ appId, appName }: FeedbackModalProps) {
     },
   });
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    setUploadError("");
+
+    // Validate file count
+    if (files.length + screenshots.length > 5) {
+      setUploadError("Maximum 5 images allowed");
+      return;
+    }
+
+    // Validate and convert each file to base64
+    Array.from(files).forEach((file) => {
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        setUploadError("Only image files are allowed");
+        return;
+      }
+
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setUploadError("Image size must be less than 5MB");
+        return;
+      }
+
+      // Convert to base64
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          setScreenshots((prev) => [...prev, event.target!.result as string]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Reset input
+    e.target.value = "";
+  };
+
+  const removeScreenshot = (index: number) => {
+    setScreenshots((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     createFeedback.mutate({
       appId,
       appName,
       ...formData,
+      screenshots,
     });
   };
 
@@ -192,6 +241,71 @@ export function FeedbackModal({ appId, appName }: FeedbackModalProps) {
                   {priority.label}
                 </button>
               ))}
+            </div>
+          </div>
+
+          {/* Screenshots */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">
+              Screenshots (optional, max 5 images)
+            </label>
+            <div className="space-y-3">
+              {/* Upload button */}
+              <div className="flex items-center gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                  onClick={() =>
+                    document.getElementById("screenshot-upload")?.click()
+                  }
+                  disabled={screenshots.length >= 5}
+                >
+                  <Upload className="h-4 w-4" />
+                  {screenshots.length === 0
+                    ? "Add Screenshots"
+                    : `Add More (${screenshots.length}/5)`}
+                </Button>
+                <input
+                  id="screenshot-upload"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={handleFileUpload}
+                />
+                {uploadError && (
+                  <span className="text-xs text-red-600 dark:text-red-400">
+                    {uploadError}
+                  </span>
+                )}
+              </div>
+
+              {/* Screenshot previews */}
+              {screenshots.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {screenshots.map((screenshot, index) => (
+                    <div
+                      key={index}
+                      className="relative group rounded-lg border border-border overflow-hidden bg-muted"
+                    >
+                      <img
+                        src={screenshot}
+                        alt={`Screenshot ${index + 1}`}
+                        className="w-full h-32 object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeScreenshot(index)}
+                        className="absolute top-1 right-1 p-1 rounded-full bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

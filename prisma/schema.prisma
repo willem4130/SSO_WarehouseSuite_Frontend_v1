@@ -80,6 +80,9 @@ model Feedback {
   targetDate      DateTime? // Target completion date
   completedDate   DateTime? // Actual completion date
 
+  // Screenshots/attachments (URLs to uploaded images)
+  screenshots     String[] @default([])
+
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   responses       FeedbackResponse[]

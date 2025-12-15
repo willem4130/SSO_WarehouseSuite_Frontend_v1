@@ -15,6 +15,7 @@ export const feedbackRouter = createTRPCRouter({
           .enum(["low", "medium", "high", "critical"])
           .default("medium"),
         submittedBy: z.string(),
+        screenshots: z.array(z.string()).optional().default([]),
       })
     )
     .mutation(async ({ ctx, input }) => {

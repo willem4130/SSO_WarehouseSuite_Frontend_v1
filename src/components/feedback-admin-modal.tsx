@@ -24,6 +24,28 @@ export function FeedbackAdminModal() {
   const [responseMessage, setResponseMessage] = useState("");
   const [responseAuthor, setResponseAuthor] = useState("");
 
+  // Grading state
+  const [editingGrades, setEditingGrades] = useState<
+    Record<
+      string,
+      {
+        complexity?: number;
+        estimatedHours?: number;
+        businessValue?: number;
+        targetDate?: string;
+      }
+    >
+  >({});
+
+  // Filtering and sorting
+  const [selectedComplexity, setSelectedComplexity] = useState<
+    number | undefined
+  >();
+  const [selectedBusinessValue, setSelectedBusinessValue] = useState<
+    number | undefined
+  >();
+  const [sortBy, setSortBy] = useState<string>("createdAt"); // createdAt, businessValue, complexity, targetDate
+
   const { data: feedback, refetch } = trpc.feedback.getAll.useQuery(
     {
       status: selectedStatus,
@@ -56,6 +78,53 @@ export function FeedbackAdminModal() {
       void refetch();
     },
   });
+
+  // Filter and sort feedback
+  const filteredAndSortedFeedback = feedback
+    ? [...feedback]
+        .filter((item: any) => {
+          // Filter by complexity
+          if (
+            selectedComplexity !== undefined &&
+            item.complexity !== selectedComplexity
+          ) {
+            return false;
+          }
+          // Filter by business value
+          if (
+            selectedBusinessValue !== undefined &&
+            item.businessValue !== selectedBusinessValue
+          ) {
+            return false;
+          }
+          return true;
+        })
+        .sort((a: any, b: any) => {
+          switch (sortBy) {
+            case "createdAt":
+              return (
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+              );
+            case "businessValue":
+              return (b.businessValue ?? 0) - (a.businessValue ?? 0);
+            case "complexity":
+              return (b.complexity ?? 0) - (a.complexity ?? 0);
+            case "estimatedHours":
+              return (b.estimatedHours ?? 0) - (a.estimatedHours ?? 0);
+            case "targetDate":
+              if (!a.targetDate && !b.targetDate) return 0;
+              if (!a.targetDate) return 1;
+              if (!b.targetDate) return -1;
+              return (
+                new Date(a.targetDate).getTime() -
+                new Date(b.targetDate).getTime()
+              );
+            default:
+              return 0;
+          }
+        })
+    : [];
 
   const typeColors = {
     bug: "text-red-700 dark:text-red-400 bg-red-500/15 border-red-500/30",
@@ -92,7 +161,7 @@ export function FeedbackAdminModal() {
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-[98vw] h-[98vh] max-w-none overflow-hidden flex flex-col">
+      <DialogContent className="!w-[98vw] !h-[98vh] !max-w-none sm:!max-w-none overflow-hidden flex flex-col">
         <DialogHeader className="flex-shrink-0">
           <DialogTitle className="text-2xl">Feedback Dashboard</DialogTitle>
           <DialogDescription>
@@ -184,14 +253,115 @@ export function FeedbackAdminModal() {
             </div>
           </div>
 
+          {/* Grading Filters */}
+          <div className="flex flex-wrap gap-2 mt-2">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-muted-foreground">
+                Complexity:
+              </span>
+              <Button
+                variant={
+                  selectedComplexity === undefined ? "default" : "outline"
+                }
+                size="sm"
+                onClick={() => setSelectedComplexity(undefined)}
+              >
+                All
+              </Button>
+              {[1, 2, 3, 4, 5].map((level) => (
+                <Button
+                  key={level}
+                  variant={selectedComplexity === level ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedComplexity(level)}
+                >
+                  {level}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2 mt-2">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-muted-foreground">
+                Business Value:
+              </span>
+              <Button
+                variant={
+                  selectedBusinessValue === undefined ? "default" : "outline"
+                }
+                size="sm"
+                onClick={() => setSelectedBusinessValue(undefined)}
+              >
+                All
+              </Button>
+              {[1, 2, 3, 4, 5].map((level) => (
+                <Button
+                  key={level}
+                  variant={
+                    selectedBusinessValue === level ? "default" : "outline"
+                  }
+                  size="sm"
+                  onClick={() => setSelectedBusinessValue(level)}
+                >
+                  {level}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          {/* Sorting */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-muted-foreground">
+                Sort by:
+              </span>
+              <Button
+                variant={sortBy === "createdAt" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSortBy("createdAt")}
+              >
+                Date
+              </Button>
+              <Button
+                variant={sortBy === "businessValue" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSortBy("businessValue")}
+              >
+                Business Value
+              </Button>
+              <Button
+                variant={sortBy === "complexity" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSortBy("complexity")}
+              >
+                Complexity
+              </Button>
+              <Button
+                variant={sortBy === "estimatedHours" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSortBy("estimatedHours")}
+              >
+                Est. Hours
+              </Button>
+              <Button
+                variant={sortBy === "targetDate" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSortBy("targetDate")}
+              >
+                Target Date
+              </Button>
+            </div>
+          </div>
+
           {/* Feedback List */}
           <div className="mt-6 space-y-3">
-            {!feedback || feedback.length === 0 ? (
+            {filteredAndSortedFeedback.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
                 No feedback found
               </div>
             ) : (
-              feedback.map((item: any) => (
+              filteredAndSortedFeedback.map((item: any) => (
                 <div
                   key={item.id}
                   className="p-4 rounded-lg border border-border bg-card hover:border-primary/50 transition-all cursor-pointer"
@@ -278,7 +448,228 @@ export function FeedbackAdminModal() {
 
                   {/* Show responses if this feedback is selected */}
                   {selectedFeedbackId === item.id && (
-                    <div className="mt-4 pt-4 border-t border-border space-y-3">
+                    <div className="mt-4 pt-4 border-t border-border space-y-4">
+                      {/* Full Description */}
+                      <div className="space-y-2">
+                        <h4 className="font-semibold text-sm text-foreground">
+                          Full Description
+                        </h4>
+                        <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                          {item.description}
+                        </p>
+                      </div>
+
+                      {/* Screenshots */}
+                      {item.screenshots && item.screenshots.length > 0 && (
+                        <div className="space-y-2">
+                          <h4 className="font-semibold text-sm text-foreground">
+                            Screenshots ({item.screenshots.length})
+                          </h4>
+                          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                            {item.screenshots.map(
+                              (screenshot: string, index: number) => (
+                                <a
+                                  key={index}
+                                  href={screenshot}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="relative group rounded-lg border border-border overflow-hidden bg-muted hover:border-primary/50 transition-colors"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <img
+                                    src={screenshot}
+                                    alt={`Screenshot ${index + 1}`}
+                                    className="w-full h-32 object-cover"
+                                  />
+                                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                    <span className="text-white opacity-0 group-hover:opacity-100 text-xs font-medium">
+                                      Click to enlarge
+                                    </span>
+                                  </div>
+                                </a>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Project Management Grading */}
+                      <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
+                        <h4 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2">
+                          <span>📊</span> Project Management
+                        </h4>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                          {/* Complexity */}
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-medium text-muted-foreground">
+                              Complexity
+                            </label>
+                            <select
+                              className="w-full px-2 py-1.5 rounded-md text-sm border border-border bg-background"
+                              value={
+                                editingGrades[item.id]?.complexity ??
+                                item.complexity ??
+                                ""
+                              }
+                              onChange={(e) => {
+                                const value = e.target.value
+                                  ? parseInt(e.target.value)
+                                  : undefined;
+                                setEditingGrades((prev) => ({
+                                  ...prev,
+                                  [item.id]: {
+                                    ...prev[item.id],
+                                    complexity: value,
+                                  },
+                                }));
+                                if (value) {
+                                  updateFeedback.mutate({
+                                    id: item.id,
+                                    complexity: value,
+                                  });
+                                }
+                              }}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <option value="">Not set</option>
+                              <option value="1">1 - Trivial</option>
+                              <option value="2">2 - Simple</option>
+                              <option value="3">3 - Moderate</option>
+                              <option value="4">4 - Complex</option>
+                              <option value="5">5 - Very Complex</option>
+                            </select>
+                          </div>
+
+                          {/* Estimated Hours */}
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-medium text-muted-foreground">
+                              Est. Hours
+                            </label>
+                            <Input
+                              type="number"
+                              step="0.5"
+                              min="0"
+                              placeholder="0"
+                              className="h-9 text-sm"
+                              value={
+                                editingGrades[item.id]?.estimatedHours ??
+                                item.estimatedHours ??
+                                ""
+                              }
+                              onChange={(e) => {
+                                const value = e.target.value
+                                  ? parseFloat(e.target.value)
+                                  : undefined;
+                                setEditingGrades((prev) => ({
+                                  ...prev,
+                                  [item.id]: {
+                                    ...prev[item.id],
+                                    estimatedHours: value,
+                                  },
+                                }));
+                              }}
+                              onBlur={(e) => {
+                                const value = e.target.value
+                                  ? parseFloat(e.target.value)
+                                  : undefined;
+                                if (value !== undefined) {
+                                  updateFeedback.mutate({
+                                    id: item.id,
+                                    estimatedHours: value,
+                                  });
+                                }
+                              }}
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                          </div>
+
+                          {/* Business Value */}
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-medium text-muted-foreground">
+                              Business Value
+                            </label>
+                            <select
+                              className="w-full px-2 py-1.5 rounded-md text-sm border border-border bg-background"
+                              value={
+                                editingGrades[item.id]?.businessValue ??
+                                item.businessValue ??
+                                ""
+                              }
+                              onChange={(e) => {
+                                const value = e.target.value
+                                  ? parseInt(e.target.value)
+                                  : undefined;
+                                setEditingGrades((prev) => ({
+                                  ...prev,
+                                  [item.id]: {
+                                    ...prev[item.id],
+                                    businessValue: value,
+                                  },
+                                }));
+                                if (value) {
+                                  updateFeedback.mutate({
+                                    id: item.id,
+                                    businessValue: value,
+                                  });
+                                }
+                              }}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <option value="">Not set</option>
+                              <option value="1">1 - Nice to have</option>
+                              <option value="2">2 - Low</option>
+                              <option value="3">3 - Medium</option>
+                              <option value="4">4 - High</option>
+                              <option value="5">5 - Critical</option>
+                            </select>
+                          </div>
+
+                          {/* Target Date */}
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-medium text-muted-foreground">
+                              Target Date
+                            </label>
+                            <Input
+                              type="date"
+                              className="h-9 text-sm"
+                              value={
+                                editingGrades[item.id]?.targetDate ??
+                                (item.targetDate
+                                  ? new Date(item.targetDate)
+                                      .toISOString()
+                                      .split("T")[0]
+                                  : "")
+                              }
+                              onChange={(e) => {
+                                const value = e.target.value || undefined;
+                                setEditingGrades((prev) => ({
+                                  ...prev,
+                                  [item.id]: {
+                                    ...prev[item.id],
+                                    targetDate: value,
+                                  },
+                                }));
+                                if (value) {
+                                  updateFeedback.mutate({
+                                    id: item.id,
+                                    targetDate: new Date(value),
+                                  });
+                                }
+                              }}
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Show completion date if resolved/closed */}
+                        {item.completedDate && (
+                          <div className="mt-3 text-xs text-muted-foreground">
+                            Completed:{" "}
+                            {new Date(item.completedDate).toLocaleDateString()}
+                          </div>
+                        )}
+                      </div>
+
                       <h4 className="font-semibold text-sm text-foreground">
                         Responses
                       </h4>
