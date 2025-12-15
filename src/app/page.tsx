@@ -1563,7 +1563,7 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Apps Grid - Grouped by Ecosystem */}
+        {/* Apps Grid - Grouped by Usage Type */}
         {filteredApps.length === 0 ? (
           <Card className="p-12 text-center">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
@@ -1578,37 +1578,38 @@ export default function Home() {
           </Card>
         ) : (
           <div className="space-y-8 sm:space-y-12">
-            {/* Core Analytics & Optimization */}
+            {/* Client Project Tools */}
             {filteredApps.some((app) =>
               [
-                "more-optimal",
-                "powerbi",
+                "raci-matrix",
+                "impact-matrix",
+                "powerpoint-addin",
                 "forecaster",
                 "tco-calculator",
                 "scenario-simulator",
-                "impact-matrix",
-                "vision-planner",
               ].includes(app.id)
             ) && (
               <div className="space-y-3 sm:space-y-4">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="h-6 sm:h-8 w-1 bg-primary rounded-full" />
+                  <div className="h-6 sm:h-8 w-1 bg-accent rounded-full" />
                   <h3 className="text-lg sm:text-2xl font-bold text-foreground">
-                    Analytics & Optimization
+                    Client Project Tools
                   </h3>
+                  <span className="text-xs sm:text-sm text-muted-foreground">
+                    Tools used in client engagements and projects
+                  </span>
                   <div className="flex-1 h-px bg-border ml-2 sm:ml-4" />
                 </div>
                 <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                   {filteredApps
                     .filter((app) =>
                       [
-                        "more-optimal",
-                        "powerbi",
+                        "raci-matrix",
+                        "impact-matrix",
+                        "powerpoint-addin",
                         "forecaster",
                         "tco-calculator",
                         "scenario-simulator",
-                        "impact-matrix",
-                        "vision-planner",
                       ].includes(app.id)
                     )
                     .map((app) => (
@@ -1618,16 +1619,19 @@ export default function Home() {
               </div>
             )}
 
-            {/* HubSpot Ecosystem */}
+            {/* Internal Operations - HubSpot */}
             {filteredApps.some((app) =>
               ["hubspot", "company-scraper"].includes(app.id)
             ) && (
               <div className="space-y-3 sm:space-y-4">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="h-6 sm:h-8 w-1 bg-accent rounded-full" />
+                  <div className="h-6 sm:h-8 w-1 bg-primary rounded-full" />
                   <h3 className="text-lg sm:text-2xl font-bold text-foreground">
                     HubSpot Ecosystem
                   </h3>
+                  <span className="text-xs sm:text-sm text-muted-foreground">
+                    CRM and marketing automation
+                  </span>
                   <div className="flex-1 h-px bg-border ml-2 sm:ml-4" />
                 </div>
                 <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -1642,22 +1646,62 @@ export default function Home() {
               </div>
             )}
 
-            {/* Simplicate Ecosystem */}
+            {/* Internal Operations - Simplicate */}
             {filteredApps.some((app) =>
               ["simplicate", "simplicate-automations"].includes(app.id)
             ) && (
               <div className="space-y-3 sm:space-y-4">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="h-6 sm:h-8 w-1 bg-accent rounded-full" />
+                  <div className="h-6 sm:h-8 w-1 bg-primary rounded-full" />
                   <h3 className="text-lg sm:text-2xl font-bold text-foreground">
                     Simplicate Ecosystem
                   </h3>
+                  <span className="text-xs sm:text-sm text-muted-foreground">
+                    Project management and business operations
+                  </span>
                   <div className="flex-1 h-px bg-border ml-2 sm:ml-4" />
                 </div>
                 <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                   {filteredApps
                     .filter((app) =>
                       ["simplicate", "simplicate-automations"].includes(app.id)
+                    )
+                    .map((app) => (
+                      <AppCard key={app.id} app={app} />
+                    ))}
+                </div>
+              </div>
+            )}
+
+            {/* Internal Operations - Business Tools */}
+            {filteredApps.some((app) =>
+              [
+                "more-optimal",
+                "powerbi",
+                "vision-planner",
+                "wms-guide-admin",
+              ].includes(app.id)
+            ) && (
+              <div className="space-y-3 sm:space-y-4">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="h-6 sm:h-8 w-1 bg-primary rounded-full" />
+                  <h3 className="text-lg sm:text-2xl font-bold text-foreground">
+                    Internal Business Tools
+                  </h3>
+                  <span className="text-xs sm:text-sm text-muted-foreground">
+                    Analytics, optimization, and internal operations
+                  </span>
+                  <div className="flex-1 h-px bg-border ml-2 sm:ml-4" />
+                </div>
+                <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                  {filteredApps
+                    .filter((app) =>
+                      [
+                        "more-optimal",
+                        "powerbi",
+                        "vision-planner",
+                        "wms-guide-admin",
+                      ].includes(app.id)
                     )
                     .map((app) => (
                       <AppCard key={app.id} app={app} />
@@ -1677,10 +1721,13 @@ export default function Home() {
             ) && (
               <div className="space-y-3 sm:space-y-4">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="h-6 sm:h-8 w-1 bg-primary rounded-full" />
+                  <div className="h-6 sm:h-8 w-1 bg-blue-500 rounded-full" />
                   <h3 className="text-lg sm:text-2xl font-bold text-foreground">
                     Company Resources
                   </h3>
+                  <span className="text-xs sm:text-sm text-muted-foreground">
+                    Company portals and external resources
+                  </span>
                   <div className="flex-1 h-px bg-border ml-2 sm:ml-4" />
                 </div>
                 <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -1692,30 +1739,6 @@ export default function Home() {
                         "scex-connect",
                         "sharepoint",
                       ].includes(app.id)
-                    )
-                    .map((app) => (
-                      <AppCard key={app.id} app={app} />
-                    ))}
-                </div>
-              </div>
-            )}
-
-            {/* Development & Utility Tools */}
-            {filteredApps.some((app) =>
-              ["raci-matrix", "powerpoint-addin"].includes(app.id)
-            ) && (
-              <div className="space-y-3 sm:space-y-4">
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="h-6 sm:h-8 w-1 bg-primary rounded-full" />
-                  <h3 className="text-lg sm:text-2xl font-bold text-foreground">
-                    Development & Utility Tools
-                  </h3>
-                  <div className="flex-1 h-px bg-border ml-2 sm:ml-4" />
-                </div>
-                <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                  {filteredApps
-                    .filter((app) =>
-                      ["raci-matrix", "powerpoint-addin"].includes(app.id)
                     )
                     .map((app) => (
                       <AppCard key={app.id} app={app} />
