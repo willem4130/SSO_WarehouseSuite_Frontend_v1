@@ -1,60 +1,63 @@
 // Static repository statistics
-// Update these manually when needed
+// Last updated: 2025-12-15
+// Calculations based on industry standard: 5-10 LOC/hour
+// - hoursMin = lines / 10 (optimistic: faster development)
+// - hoursMax = lines / 5 (conservative: slower development)
 
 export const REPO_STATS = [
   {
     repo: "willem4130/SSO_WarehouseSuite_Frontend_v1",
     lines: 3245,
-    hoursMin: 649,
-    hoursMax: 1298,
+    hoursMin: 325,
+    hoursMax: 649,
   },
   {
     repo: "willem4130/SSO-RACI",
     lines: 2890,
-    hoursMin: 578,
-    hoursMax: 1156,
+    hoursMin: 289,
+    hoursMax: 578,
   },
   {
     repo: "willem4130/sso-trucktypecalculator-2.0",
     lines: 2156,
-    hoursMin: 431,
-    hoursMax: 862,
+    hoursMin: 216,
+    hoursMax: 431,
   },
   {
     repo: "willem4130/impactmatrix",
     lines: 3421,
-    hoursMin: 684,
-    hoursMax: 1368,
+    hoursMin: 342,
+    hoursMax: 684,
   },
   {
     repo: "willem4130/sc-simulator",
     lines: 2987,
-    hoursMin: 597,
-    hoursMax: 1195,
+    hoursMin: 299,
+    hoursMax: 597,
   },
   {
     repo: "willem4130/SSO_Webscraper",
     lines: 1876,
-    hoursMin: 375,
-    hoursMax: 750,
+    hoursMin: 188,
+    hoursMax: 375,
   },
   {
     repo: "willem4130/SSO-linkedin-bot",
     lines: 1543,
-    hoursMin: 309,
-    hoursMax: 617,
+    hoursMin: 154,
+    hoursMax: 309,
   },
   {
     repo: "willem4130/PickOptimizerClone",
     lines: 2678,
-    hoursMin: 536,
-    hoursMax: 1071,
+    hoursMin: 268,
+    hoursMax: 536,
   },
   {
     repo: "willem4130/raci-v2",
     lines: 2234,
-    hoursMin: 447,
-    hoursMax: 894,
+    hoursMin: 223,
+    hoursMax: 447,
   },
 ];
 

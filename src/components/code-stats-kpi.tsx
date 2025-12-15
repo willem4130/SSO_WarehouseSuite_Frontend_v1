@@ -75,9 +75,7 @@ export function CodeStatsKPI() {
               {kpiData.estimatedHoursMin.toLocaleString()}-
               {kpiData.estimatedHoursMax.toLocaleString()}h
             </div>
-            <div className="text-xs text-muted-foreground">
-              2.5-5.0 lines/hour
-            </div>
+            <div className="text-xs text-muted-foreground">5-10 lines/hour</div>
           </div>
 
           {/* Projects */}
@@ -98,10 +96,10 @@ export function CodeStatsKPI() {
         {/* Benchmark Info */}
         <div className="mt-4 pt-4 border-t border-border/50">
           <p className="text-xs text-muted-foreground">
-            <strong>Benchmark:</strong> Industry range of 2.5-5.0 lines/hour
-            (conservative to optimistic) includes design, implementation,
-            testing, documentation, and debugging. Metrics auto-update from
-            GitHub repositories.
+            <strong>Benchmark:</strong> Industry standard of 5-10 lines/hour
+            (optimistic to conservative) includes design, implementation,
+            testing, documentation, debugging, and full development cycle
+            overhead. See full research details below.
           </p>
         </div>
       </CardContent>
