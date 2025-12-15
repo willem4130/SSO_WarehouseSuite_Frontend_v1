@@ -57,15 +57,17 @@ tests/
 **Deployment Process:**
 
 - Connected to GitHub repo: `willem4130/SSO_WarehouseSuite_Frontend_v1`
-- Auto-deploys on every push to `main` branch
+- **⚠️ GitHub auto-deploy webhook currently has issues - use manual deploy**
 - Build time: ~1-2 minutes
 - Database migrations run automatically via `prisma generate` in build command
 
-**Manual Deployment (if GitHub webhook fails):**
+**Deploy to Production (REQUIRED after every git push):**
 
 ```bash
 vercel --prod --force --scope willem4130s-projects --yes
 ```
+
+**Note:** Run this command from the project root after pushing to GitHub. The GitHub webhook integration is not working reliably, so manual deploys are required.
 
 **⚠️ IMPORTANT:**
 
