@@ -63,22 +63,32 @@ model VerificationToken {
 
 // Feedback & Issue Tracking
 model Feedback {
-  id          String   @id @default(cuid())
-  appId       String   // ID of the app this feedback is for
-  appName     String   // Name of the app for easy reference
-  type        String   // bug, feature, issue, question, improvement
-  title       String
-  description String   @db.Text
-  status      String   @default("open") // open, in_progress, resolved, closed
-  priority    String   @default("medium") // low, medium, high, critical
-  submittedBy String   // User name or email
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  responses   FeedbackResponse[]
+  id              String   @id @default(cuid())
+  appId           String   // ID of the app this feedback is for
+  appName         String   // Name of the app for easy reference
+  type            String   // bug, feature, issue, question, improvement
+  title           String
+  description     String   @db.Text
+  status          String   @default("open") // open, in_progress, resolved, closed
+  priority        String   @default("medium") // low, medium, high, critical
+  submittedBy     String   // User name or email
+
+  // Grading fields for project management
+  complexity      Int?     // 1-5 scale (1=trivial, 5=very complex)
+  estimatedHours  Float?   // Estimated time to complete in hours
+  businessValue   Int?     // 1-5 scale (1=low value, 5=critical value)
+  targetDate      DateTime? // Target completion date
+  completedDate   DateTime? // Actual completion date
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  responses       FeedbackResponse[]
 
   @@index([appId])
   @@index([status])
   @@index([type])
+  @@index([businessValue])
+  @@index([targetDate])
 }
 
 model FeedbackResponse {

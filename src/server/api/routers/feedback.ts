@@ -70,7 +70,7 @@ export const feedbackRouter = createTRPCRouter({
       });
     }),
 
-  // Update feedback status/priority
+  // Update feedback status/priority/grading
   update: publicProcedure
     .input(
       z.object({
@@ -79,16 +79,30 @@ export const feedbackRouter = createTRPCRouter({
           .enum(["open", "in_progress", "resolved", "closed"])
           .optional(),
         priority: z.enum(["low", "medium", "high", "critical"]).optional(),
+        complexity: z.number().int().min(1).max(5).optional(),
+        estimatedHours: z.number().positive().optional(),
+        businessValue: z.number().int().min(1).max(5).optional(),
+        targetDate: z.date().optional(),
+        completedDate: z.date().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { id, status, priority } = input;
-      const data: {
-        status?: string;
-        priority?: string;
-      } = {};
-      if (status !== undefined) data.status = status;
-      if (priority !== undefined) data.priority = priority;
+      const { id, ...updates } = input;
+      const data: Record<string, unknown> = {};
+
+      // Only include fields that are defined
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value !== undefined) {
+          data[key] = value;
+        }
+      });
+
+      // Auto-set completedDate when status changes to resolved/closed
+      if (updates.status === "resolved" || updates.status === "closed") {
+        if (!data["completedDate"]) {
+          data["completedDate"] = new Date();
+        }
+      }
 
       return ctx.db.feedback.update({
         where: { id },
