@@ -91,15 +91,11 @@ export function FeedbackModal({ appId, appName }: FeedbackModalProps) {
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
               {[
-                { value: "bug", label: "🐛 Bug", color: "red" },
-                { value: "feature", label: "✨ Feature", color: "purple" },
-                { value: "issue", label: "⚠️ Issue", color: "orange" },
-                { value: "question", label: "❓ Question", color: "blue" },
-                {
-                  value: "improvement",
-                  label: "💡 Idea",
-                  color: "green",
-                },
+                { value: "bug", label: "Bug" },
+                { value: "feature", label: "Feature" },
+                { value: "issue", label: "Issue" },
+                { value: "question", label: "Question" },
+                { value: "improvement", label: "Improvement" },
               ].map((type) => (
                 <button
                   key={type.value}
@@ -110,10 +106,10 @@ export function FeedbackModal({ appId, appName }: FeedbackModalProps) {
                       type: type.value as typeof formData.type,
                     }))
                   }
-                  className={`px-3 py-2 rounded-md text-sm font-medium border transition-all ${
+                  className={`px-3 py-2 rounded-md text-sm font-medium border transition-colors ${
                     formData.type === type.value
-                      ? `bg-${type.color}-500/15 text-${type.color}-700 dark:text-${type.color}-400 border-${type.color}-500/30 ring-2 ring-${type.color}-500/20`
-                      : "bg-background border-border hover:border-primary/50"
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-background border-border hover:border-primary/50 hover:bg-accent"
                   }`}
                 >
                   {type.label}

@@ -92,7 +92,7 @@ export function FeedbackAdminModal() {
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-[95vw] w-full max-h-[95vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl">Feedback Dashboard</DialogTitle>
           <DialogDescription>
