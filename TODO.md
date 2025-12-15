@@ -29,65 +29,31 @@
 - [x] Update tRPC router to handle all grading fields
 - [x] Add database indexes for businessValue and targetDate
 
+### Feedback System UI
+
+- [x] Grading UI Implementation:
+  - Complexity selector: 1-5 scale with labels (Trivial, Simple, Moderate, Complex, Very Complex)
+  - Estimated Hours: Number input field
+  - Business Value selector: 1-5 scale with labels (Nice to have, Low, Medium, High, Critical)
+  - Target Date: Date picker component
+  - Display completedDate (read-only, auto-set)
+  - Real-time saving (no save button needed)
+- [x] Screenshot Upload for Feedback:
+  - File upload field in feedback submission modal
+  - Support multiple screenshots (up to 5 images, max 5MB each)
+  - Base64 encoding (stored in database as data URLs)
+  - Added `screenshots` field to Feedback model (String[])
+  - Display screenshots in admin modal with click-to-enlarge
+  - Image preview grid with remove functionality
+- [x] Sorting & Filtering by Grades:
+  - Filter by complexity level (1-5)
+  - Filter by business value (1-5)
+  - Sort by: Date, Business Value, Complexity, Est. Hours, Target Date
+  - Client-side filter and sort logic
+
 ## 🚧 In Progress / Pending
 
 ### High Priority - Feedback System Enhancements
-
-#### 1. **Grading UI Implementation**
-
-**Status**: Backend done, UI pending
-**Requirements**:
-
-- [ ] Add grading inputs in feedback admin modal (expanded item view)
-- [ ] Complexity selector: 1-5 scale with labels (Trivial, Simple, Moderate, Complex, Very Complex)
-- [ ] Estimated Hours: Number input field
-- [ ] Business Value selector: 1-5 scale with labels (Low, Medium, High, Critical, Strategic)
-- [ ] Target Date: Date picker component
-- [ ] Display completedDate (read-only, auto-set)
-- [ ] Visual indicators: Color-coded badges for grades
-- [ ] Save button to update grades
-
-**Files to modify**:
-
-- `src/components/feedback-admin-modal.tsx` - Add grading UI section
-
-#### 2. **Screenshot Upload for Feedback**
-
-**Status**: Not started
-**Requirements**:
-
-- [ ] Add file upload field to feedback submission modal
-- [ ] Support multiple screenshots (2-5 images)
-- [ ] Store images in Vercel Blob storage
-- [ ] Add `screenshots` field to Feedback model (array of URLs)
-- [ ] Display screenshots in admin modal
-- [ ] Image preview/lightbox functionality
-
-**Files to modify**:
-
-- `prisma/schema.prisma` - Add screenshots field
-- `src/components/feedback-modal.tsx` - Add file upload UI
-- `src/components/feedback-admin-modal.tsx` - Display screenshots
-- `src/server/api/routers/feedback.ts` - Handle screenshot URLs
-- May need: `src/app/api/upload/route.ts` - Handle file uploads
-
-#### 3. **Sorting & Filtering by Grades**
-
-**Status**: Not started
-**Requirements**:
-
-- [ ] Add filters for complexity level
-- [ ] Add filters for business value
-- [ ] Add filter for target date range
-- [ ] Sort by business value (high to low)
-- [ ] Sort by complexity (high to low)
-- [ ] Sort by estimated hours
-- [ ] Sort by target date
-- [ ] Combined sorting (e.g., high value + low complexity = quick wins)
-
-**Files to modify**:
-
-- `src/components/feedback-admin-modal.tsx` - Add filter UI and sorting logic
 
 ### Medium Priority - UI Fixes
 
@@ -175,12 +141,13 @@
 
 ## 🎯 Next Session Priority
 
-1. Implement grading UI in feedback admin modal
-2. Fix "improvement" button text
-3. Add API endpoints to app info modals
-4. Plan screenshot upload feature architecture
+1. Add API endpoints to remaining apps (currently only Forecaster has endpoints)
+2. Update CLAUDE.md documentation
+3. Consider implementing Vercel Blob storage for screenshots (currently using base64)
+4. Add date range filter for target dates
+5. Test feedback response buttons in production
 
 ---
 
 **Last Updated**: 2025-12-15
-**Version**: 1.0
+**Version**: 1.1
