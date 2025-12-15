@@ -45,34 +45,33 @@ tests/
 
 **Tech Stack:** Next.js 16, React 19, TypeScript, tRPC, Prisma, PostgreSQL (Vercel Postgres/Neon), NextAuth.js, Tailwind CSS, shadcn/ui
 
-## 🚀 Production Deployment - CRITICAL
+## 🚀 Production Deployment
 
-**⚠️ IMPORTANT: There are TWO Vercel projects connected to this repository:**
+**Production URL:** https://scex-application-suite.vercel.app/
 
-1. **scex-application-suite** (PRIMARY - USE THIS ONE)
-   - URL: https://scex-application-suite.vercel.app/
-   - Aliases: https://scex-application-suite-willem4130s-projects.vercel.app
-   - Status: ✅ Active production deployment
-   - **This is the official production URL**
+**Aliases:**
 
-2. **ssowhsuitev1** (REDUNDANT - SCHEDULED FOR DELETION)
-   - URL: https://ssowhsuitev1.vercel.app/
-   - Aliases: https://ssowhsuitev1-willem4130s-projects.vercel.app
-   - Status: ⚠️ Duplicate deployment, will be deleted
-   - **Do not use or share this URL**
+- https://scex-application-suite-willem4130s-projects.vercel.app
+- https://scex-application-suite-git-main-willem4130s-projects.vercel.app
 
-**Why two deployments?**
+**Deployment Process:**
 
-- Both projects are connected to the same GitHub repo
-- Both auto-deploy on every push to main branch
-- This is redundant and wastes build minutes
-- ssowhsuitev1 will be deleted once scex-application-suite is verified
-
-**Deployment process:**
-
-- Every `git push` to main triggers auto-deployment on BOTH projects
-- Builds take ~1-2 minutes
+- Connected to GitHub repo: `willem4130/SSO_WarehouseSuite_Frontend_v1`
+- Auto-deploys on every push to `main` branch
+- Build time: ~1-2 minutes
 - Database migrations run automatically via `prisma generate` in build command
+
+**Manual Deployment (if GitHub webhook fails):**
+
+```bash
+vercel --prod --force --scope willem4130s-projects --yes
+```
+
+**⚠️ IMPORTANT:**
+
+- **ONLY** use https://scex-application-suite.vercel.app/ for production
+- If you see a project named "ssowhsuitev1" in Vercel dashboard, DELETE IT (redundant duplicate)
+- Any other Vercel projects pointing to this repo should be removed
 
 ## Key Features
 
