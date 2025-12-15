@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { RepoStatsBadge } from "@/components/repo-stats-badge";
 import { DevMetricsModal } from "@/components/dev-metrics-modal";
-import { HeroMetricsStrip } from "@/components/hero-metrics-strip";
+import { UpdateStatsButton } from "@/components/update-stats-button";
 import {
   Search,
   BarChart3,
@@ -148,7 +148,7 @@ const apps: App[] = [
         "Export forecasts before important meetings for offline review",
         "Check the 'What-If' scenarios tab for strategic planning",
       ],
-      githubRepo: "https://github.com/willem4130/sso-forecaster",
+      githubRepo: "https://github.com/willem4130/SSO-linkedin-bot",
       techDetails: {
         stack: [
           "Next.js 16",
@@ -418,8 +418,7 @@ const apps: App[] = [
         "Use tags to categorize companies during research",
         "Check HubSpot after syncing to verify all fields mapped correctly",
       ],
-      githubRepo:
-        "https://github.com/willem4130/Hubspot-CompanyScrape-Hubspot_v1",
+      githubRepo: "https://github.com/willem4130/SSO_Webscraper",
       techDetails: {
         stack: [
           "Next.js 16",
@@ -494,7 +493,7 @@ const apps: App[] = [
         "Use Slack notifications for urgent items only to avoid alert fatigue",
         "Keep backup manual processes for critical invoice periods",
       ],
-      githubRepo: "https://github.com/willem4130/simplicate-workspace",
+      githubRepo: "https://github.com/willem4130/PickOptimizerClone",
       techDetails: {
         stack: [
           "Next.js 16",
@@ -678,7 +677,7 @@ const apps: App[] = [
         "Use the bulk replace feature to update recurring elements",
         "Keep a master template with all standard placeholders",
       ],
-      githubRepo: "https://github.com/willem4130/powerpoint-placeholder-addin",
+      githubRepo: "https://github.com/willem4130/raci-v2",
       techDetails: {
         stack: [
           "Next.js 16",
@@ -1138,6 +1137,13 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary/5 border border-primary/20">
+                <Zap className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium text-foreground">
+                  9 Apps
+                </span>
+              </div>
+              <UpdateStatsButton />
               <DevMetricsModal />
               <ThemeToggle />
             </div>
@@ -1147,9 +1153,6 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
-        {/* Hero Metrics Strip */}
-        <HeroMetricsStrip />
-
         {/* Search and Filters */}
         <div className="mb-6 sm:mb-8 space-y-3 sm:space-y-4">
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
