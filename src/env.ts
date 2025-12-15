@@ -12,6 +12,7 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    GITHUB_TOKEN: z.string().default(""),
     // Add OAuth provider credentials when needed
     // AUTH_GITHUB_ID: z.string().min(1),
     // AUTH_GITHUB_SECRET: z.string().min(1),
@@ -34,6 +35,7 @@ export const env = createEnv({
     DATABASE_URL: process.env["DATABASE_URL"],
     AUTH_SECRET: process.env["AUTH_SECRET"],
     NODE_ENV: process.env["NODE_ENV"],
+    GITHUB_TOKEN: process.env["GITHUB_TOKEN"],
     // AUTH_GITHUB_ID: process.env["AUTH_GITHUB_ID"],
     // AUTH_GITHUB_SECRET: process.env["AUTH_GITHUB_SECRET"],
     // NEXT_PUBLIC_API_URL: process.env["NEXT_PUBLIC_API_URL"],

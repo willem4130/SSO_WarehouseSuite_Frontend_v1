@@ -1,102 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Code2, Clock, Zap } from "lucide-react";
-
-interface RepoStats {
-  name: string;
-  linesOfCode: number;
-  languages: Record<string, number>;
-}
-
-interface KPIData {
-  totalRepos: number;
-  totalLinesOfCode: number;
-  estimatedHoursMin: number;
-  estimatedHoursMax: number;
-}
-
-// Industry benchmarks for professional developers
-const LINES_PER_HOUR_OPTIMISTIC = 5.0; // Faster, more experienced workflow
-const LINES_PER_HOUR_CONSERVATIVE = 2.5; // Slower, more careful approach
+import { useRepoStats } from "@/hooks/use-repo-stats";
 
 export function CodeStatsKPI() {
-  const [kpiData, setKpiData] = useState<KPIData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data, loading } = useRepoStats();
 
-  useEffect(() => {
-    async function fetchGitHubStats() {
-      try {
-        // List of SCEX custom build repositories
-        const repos = [
-          "willem4130/sso-forecaster",
-          "willem4130/Hubspot-CompanyScrape-Hubspot_v1",
-          "willem4130/simplicate-workspace",
-          "willem4130/impactmatrix",
-          "willem4130/sso-trucktypecalculator-2.0",
-          "willem4130/sc-simulator",
-          "willem4130/SSO-RACI",
-          "willem4130/powerpoint-placeholder-addin",
-          "willem4130/SSO_WarehouseSuite_Frontend_v1",
-        ];
-
-        let totalLines = 0;
-        const repoStats: RepoStats[] = [];
-
-        // Fetch language stats for each repo
-        await Promise.all(
-          repos.map(async (repo) => {
-            try {
-              const response = await fetch(
-                `https://api.github.com/repos/${repo}/languages`
-              );
-              if (response.ok) {
-                const languages = await response.json();
-                // Approximate lines of code: bytes ÷ average bytes per line (~50)
-                const bytesTotal = Object.values(languages).reduce(
-                  (sum: number, bytes) => sum + (bytes as number),
-                  0
-                );
-                const linesOfCode = Math.round(bytesTotal / 50);
-                totalLines += linesOfCode;
-
-                const repoName = repo.split("/")[1] || repo;
-                repoStats.push({
-                  name: repoName,
-                  linesOfCode,
-                  languages,
-                });
-              }
-            } catch (error) {
-              console.error(`Error fetching stats for ${repo}:`, error);
-            }
-          })
-        );
-
-        // Calculate range: optimistic = fewer hours, conservative = more hours
-        const estimatedHoursMin = Math.round(
-          totalLines / LINES_PER_HOUR_OPTIMISTIC
-        );
-        const estimatedHoursMax = Math.round(
-          totalLines / LINES_PER_HOUR_CONSERVATIVE
-        );
-
-        setKpiData({
-          totalRepos: repos.length,
-          totalLinesOfCode: totalLines,
-          estimatedHoursMin,
-          estimatedHoursMax,
-        });
-      } catch (error) {
-        console.error("Error fetching GitHub stats:", error);
-      } finally {
-        setLoading(false);
+  const kpiData = data
+    ? {
+        totalRepos: data.stats.length,
+        totalLinesOfCode: data.stats.reduce((sum, stat) => sum + stat.lines, 0),
+        estimatedHoursMin: data.stats.reduce(
+          (sum, stat) => sum + stat.hoursMin,
+          0
+        ),
+        estimatedHoursMax: data.stats.reduce(
+          (sum, stat) => sum + stat.hoursMax,
+          0
+        ),
       }
-    }
-
-    fetchGitHubStats();
-  }, []);
+    : null;
 
   if (loading) {
     return (

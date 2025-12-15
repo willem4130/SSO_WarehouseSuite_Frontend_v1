@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { REPO_STATS } from "@/data/repo-stats";
 
 interface RepoStat {
   repo: string;
@@ -13,31 +13,12 @@ interface RepoStatsResponse {
 }
 
 export function useRepoStats() {
-  const [data, setData] = useState<RepoStatsResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const data: RepoStatsResponse = {
+    stats: REPO_STATS,
+    cached: true,
+  };
 
-  useEffect(() => {
-    async function fetchStats() {
-      try {
-        const response = await fetch("/api/repo-stats");
-        if (!response.ok) {
-          throw new Error("Failed to fetch repo stats");
-        }
-        const json = await response.json();
-        setData(json);
-      } catch (err) {
-        setError(err as Error);
-        console.error("Error fetching repo stats:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchStats();
-  }, []);
-
-  return { data, loading, error };
+  return { data, loading: false, error: null };
 }
 
 export function useRepoStat(githubRepo: string) {

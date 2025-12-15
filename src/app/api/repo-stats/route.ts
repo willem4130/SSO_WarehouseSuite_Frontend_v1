@@ -16,19 +16,23 @@ const LINES_PER_HOUR_OPTIMISTIC = 5.0;
 const LINES_PER_HOUR_CONSERVATIVE = 2.5;
 
 const REPOS = [
-  "willem4130/sso-forecaster",
-  "willem4130/Hubspot-CompanyScrape-Hubspot_v1",
-  "willem4130/simplicate-workspace",
-  "willem4130/impactmatrix",
-  "willem4130/sso-trucktypecalculator-2.0",
-  "willem4130/sc-simulator",
-  "willem4130/SSO-RACI",
-  "willem4130/powerpoint-placeholder-addin",
   "willem4130/SSO_WarehouseSuite_Frontend_v1",
+  "willem4130/SSO-RACI",
+  "willem4130/sso-trucktypecalculator-2.0",
+  "willem4130/impactmatrix",
+  "willem4130/sc-simulator",
+  "willem4130/SSO_Webscraper",
+  "willem4130/SSO-linkedin-bot",
+  "willem4130/PickOptimizerClone",
+  "willem4130/raci-v2",
 ];
 
 export async function GET() {
   try {
+    // Workaround for Next.js edge runtime env access
+    const githubToken = process.env["GITHUB_TOKEN"] || "";
+    console.log("githubToken loaded:", githubToken ? "YES" : "NO");
+
     // Return cached data if still valid
     const now = Date.now();
     if (cachedData && now - lastFetchTime < CACHE_DURATION) {
@@ -43,9 +47,9 @@ export async function GET() {
         const response = await fetch(
           `https://api.github.com/repos/${repo}/languages`,
           {
-            headers: process.env["GITHUB_TOKEN"]
+            headers: githubToken
               ? {
-                  Authorization: `Bearer ${process.env["GITHUB_TOKEN"]}`,
+                  Authorization: `Bearer ${githubToken}`,
                 }
               : {},
             // Add cache control
